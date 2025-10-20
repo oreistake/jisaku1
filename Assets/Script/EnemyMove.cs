@@ -15,10 +15,10 @@ public class EnemyMove : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        Move();
     }
 
-    private void OnAnimatorMove()
+    private void Move()
     {
         if (Vector2.Distance(transform.position, playerTr.position) < 0.1f) return;
 

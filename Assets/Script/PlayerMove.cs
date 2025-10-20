@@ -4,9 +4,13 @@ using UnityEngine;
 
 public class PlayerMove : MonoBehaviour
 {
+    [SerializeField] private GameObject _bulletPrefab;
     private Animator _animator;
-    public float moveSpeed = 5f;
+    [SerializeField] private float _moveSpeed = 5f;
     private Vector2 moveDirection;
+    [SerializeField] private float _shootTime;
+
+    [SerializeField] private float _shootCount;
 
     // Start is called before the first frame update
 
@@ -16,16 +20,17 @@ public class PlayerMove : MonoBehaviour
         // FPSÇ60Ç…ê›íË
         Application.targetFrameRate = 60;
 
-        
+        _shootCount = 0;
         _animator = GetComponent<Animator>();
     }
     void Update()
     {
         ProcessInputs();
         Move();
+       
     }
 
-    void ProcessInputs()
+    void ProcessInputs() // ì¸óÕèàóù
     {
         float moveX = Input.GetAxisRaw("Horizontal");
         float moveY = Input.GetAxisRaw("Vertical");
@@ -42,9 +47,11 @@ public class PlayerMove : MonoBehaviour
 
     }
 
-    void Move()
+    void Move() // à⁄ìÆ
     {
-        transform.Translate(moveDirection * moveSpeed * Time.deltaTime,Space.World);
+        transform.Translate(moveDirection * _moveSpeed * Time.deltaTime,Space.World);
         _animator.SetBool("Walk", moveDirection.x != 0.0f || moveDirection.y != 0.0f);
     }
+
+    
 }

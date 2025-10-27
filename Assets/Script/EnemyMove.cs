@@ -6,6 +6,8 @@ public class EnemyMove : MonoBehaviour
 {
     Transform playerTr; // ÉvÉåÉCÉÑÅ[ÇÃTransform
     [SerializeField] float _speed = 2.0f;
+    [SerializeField] private int _hp;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -26,4 +28,17 @@ public class EnemyMove : MonoBehaviour
             new Vector2(playerTr.position.x,playerTr.position.y),
             _speed * Time.deltaTime);
     }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("Player")||collision.gameObject.CompareTag("Bullet"))
+        {
+            _hp -= 1;
+            if (_hp < 0)
+            {
+                Destroy(gameObject);
+            }
+        }
+    }
+
 }

@@ -136,7 +136,9 @@ GameObject:
   - component: {fileID: 53277566}
   - component: {fileID: 53277561}
   - component: {fileID: 53277565}
-  m_Layer: 0
+  - component: {fileID: 53277568}
+  - component: {fileID: 53277567}
+  m_Layer: 6
   m_Name: luchador-idle-right_0
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -155,10 +157,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e357058c682afd4ebfb964d3ca064f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _bulletPrefab: {fileID: 0}
   _moveSpeed: 5
-  _shootTime: 0
-  _shootCount: 0
+  _hp: 30
 --- !u!95 &53277562
 Animator:
   serializedVersion: 5
@@ -241,7 +241,7 @@ Transform:
   m_GameObject: {fileID: 53277560}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.47, y: -0.84, z: 0}
+  m_LocalPosition: {x: -3.54, y: -0.48, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -306,6 +306,68 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _speed: 14
   _bullet: {fileID: 8122364379631609285, guid: 59296d03cf9cade48a62d5825c8e72db, type: 3}
+--- !u!50 &53277567
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 53277560}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
+--- !u!58 &53277568
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 53277560}
+  m_Enabled: 0
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 3.99
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -425,9 +487,9 @@ GameObject:
   - component: {fileID: 1370147065}
   - component: {fileID: 1370147064}
   - component: {fileID: 1370147063}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Flight_0
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -509,7 +571,7 @@ CircleCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -595,6 +657,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _speed: 2
+  _hp: 3
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

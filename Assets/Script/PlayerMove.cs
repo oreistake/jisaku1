@@ -10,6 +10,7 @@ public class PlayerMove : MonoBehaviour
     private Vector2 moveDirection;
     private Vector2 _camPos;
     [SerializeField] private int _hp;
+    public bool isDeath;
 
     //[SerializeField] private float _shootTime;
 
@@ -25,6 +26,8 @@ public class PlayerMove : MonoBehaviour
 
         //_shootCount = 0;
         _animator = GetComponent<Animator>();
+
+        isDeath = false;
     }
     void Update()
     {
@@ -35,17 +38,21 @@ public class PlayerMove : MonoBehaviour
 
     void ProcessInputs() // “ü—Íˆ—
     {
-        float moveX = Input.GetAxisRaw("Horizontal");
-        float moveY = Input.GetAxisRaw("Vertical");
-        moveDirection = new Vector2(moveX, moveY).normalized;
+        if (!isDeath)
+        {
+            
+            float moveX = Input.GetAxisRaw("Horizontal");
+            float moveY = Input.GetAxisRaw("Vertical");
+            moveDirection = new Vector2(moveX, moveY).normalized;
 
-        if (moveX > 0)
-        {
-            transform.eulerAngles = new Vector3(0,0,0);
-        }
-        else if (moveX < 0)
-        {
-            transform.eulerAngles = new Vector3(0, 180, 0);
+            if (moveX > 0)
+            {
+                 transform.eulerAngles = new Vector3(0,0,0);
+            }
+            else if (moveX < 0)
+            {
+                transform.eulerAngles = new Vector3(0, 180, 0);
+            }
         }
 
     }
@@ -63,7 +70,10 @@ public class PlayerMove : MonoBehaviour
             _hp -= 1;
             if (_hp < 0)
             {
-                Destroy(gameObject);
+                //Destroy(gameObject);
+                _animator.SetBool("Death",true);
+                moveDirection = new Vector2(0,0);
+                isDeath = true;
             }
         }
     }

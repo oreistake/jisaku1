@@ -11,7 +11,13 @@ public class PlayerMove : MonoBehaviour
     private Vector2 _camPos;
     [SerializeField] private int _hp;
     public bool isDeath;
-
+    // íeÇÃë¨ìx
+    [SerializeField] private float _bulletspeed = 3.0f;
+    // íeÇÃPreFabÇì¸ÇÍÇÈïœêî    
+    [SerializeField] private GameObject _bullet;
+    private GameObject _bulletIns;
+    private Vector2 _mousePos;
+    private Vector2 _angle;
     //[SerializeField] private float _shootTime;
 
     //[SerializeField] private float _shootCount;
@@ -33,7 +39,11 @@ public class PlayerMove : MonoBehaviour
     {
         ProcessInputs();
         Move();
-       
+
+        if (!isDeath)
+        {
+            Shoot();
+        }
     }
 
     void ProcessInputs() // ì¸óÕèàóù
@@ -61,6 +71,20 @@ public class PlayerMove : MonoBehaviour
     {
         transform.Translate(moveDirection * _moveSpeed * Time.deltaTime,Space.World);
         _animator.SetBool("Walk", moveDirection.x != 0.0f || moveDirection.y != 0.0f);
+    }
+
+    void Shoot()
+    {
+        _mousePos = (Vector2)Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        if (Input.GetMouseButtonDown(0))
+        {
+            Vector2 direction = (_mousePos - (Vector2)transform.position).normalized;
+            float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+
+            _bulletIns = Instantiate(_bullet, transform.position, Quaternion.Euler(0, 0, angle));
+            _bulletIns.GetComponent<Rigidbody2D>().velocity = direction * _bulletspeed;
+        }
+
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

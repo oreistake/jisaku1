@@ -158,7 +158,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _moveSpeed: 5
-  _hp: 30
+  _hp: 2
+  isDeath: 0
+  _bulletspeed: 14
+  _bullet: {fileID: 8122364379631609285, guid: 59296d03cf9cade48a62d5825c8e72db, type: 3}
 --- !u!95 &53277562
 Animator:
   serializedVersion: 5
@@ -299,7 +302,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 53277560}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9dab51f2a3e52e24a8b2636656db2017, type: 3}
   m_Name: 

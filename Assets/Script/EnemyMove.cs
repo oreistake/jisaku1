@@ -8,10 +8,12 @@ public class EnemyMove : MonoBehaviour
     [SerializeField] float _speed = 2.0f;
     [SerializeField] private int _hp;
 
+    private SpriteRenderer _spriteRenderer;
     // Start is called before the first frame update
     void Start()
     {
         playerTr = GameObject.FindGameObjectWithTag("Player").transform;
+        _spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     // Update is called once per frame
@@ -27,6 +29,18 @@ public class EnemyMove : MonoBehaviour
         transform.position = Vector2.MoveTowards(transform.position,
             new Vector2(playerTr.position.x,playerTr.position.y),
             _speed * Time.deltaTime);
+
+        if (playerTr.position.x > transform.position.x)
+        {
+            // ‰E‚ðŒü‚­
+            _spriteRenderer.flipX = false;
+        }
+        else
+        {
+            _spriteRenderer.flipX = true;
+        }
+
+
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

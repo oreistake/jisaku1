@@ -158,10 +158,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _moveSpeed: 5
-  _hp: 2
-  isDeath: 0
+  _hp: 14
   _bulletspeed: 14
   _bullet: {fileID: 8122364379631609285, guid: 59296d03cf9cade48a62d5825c8e72db, type: 3}
+  _damageTime: 1
+  _damageCycle: 0.25
 --- !u!95 &53277562
 Animator:
   serializedVersion: 5
@@ -579,7 +580,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 0.16
+  m_Radius: 0.09
 --- !u!212 &1370147066
 SpriteRenderer:
   m_ObjectHideFlags: 0

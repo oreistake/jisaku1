@@ -1,28 +1,57 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro.EditorUtilities;
 using UnityEngine;
 
 public class PlayerMove : MonoBehaviour
 {
-     //private GameObject _bulletPrefab;
+    // プレイヤーのアニメーション制御用
     private Animator _animator;
+
+    // プレイヤーの移動速度
     [SerializeField] private float _moveSpeed = 5f;
+
+    // プレイヤーの移動方向
     private Vector2 moveDirection;
+
+    // カメラの位置
     private Vector2 _camPos;
+
+    // プレイヤーのHP
     [SerializeField] private int _hp;
-    public bool isDeath;
+
+    // 死亡状態を判定するフラグ
+    private bool isDeath;
+
     // 弾の速度
     [SerializeField] private float _bulletspeed = 3.0f;
-    // 弾のPreFabを入れる変数    
+
+    // 弾のPrefab
     [SerializeField] private GameObject _bullet;
+
+    // 実際に生成された弾のインスタンスを格納する変数
     private GameObject _bulletIns;
+
+    // マウスの座標を保持
     private Vector2 _mousePos;
+
+    // プレイヤーからマウスへの角度ベクトル
     private Vector2 _angle;
-    //[SerializeField] private float _shootTime;
 
-    //[SerializeField] private float _shootCount;
+    // ダメージを食らった時の点滅時間
+    [SerializeField] private float _damageTime;
 
-    // Start is called before the first frame update
+    // ダメージを食らった時の点滅周期
+    [SerializeField] private float _damageCycle;
+
+    // プレイヤーのスプライトを制御するためのコンポーネント
+    private SpriteRenderer _spriteRenderer;
+
+    // 現在の点滅経過時間
+    private float _damageTimeCount;
+
+    // 被ダメージ中かどうかを示すフラグ
+    private bool _bDamage;
 
     void Start()
     {
@@ -30,7 +59,10 @@ public class PlayerMove : MonoBehaviour
         // FPSを60に設定
         Application.targetFrameRate = 60;
 
-        //_shootCount = 0;
+        _spriteRenderer = GetComponent<SpriteRenderer>();
+        _damageTimeCount = 0;
+        _bDamage = false;
+
         _animator = GetComponent<Animator>();
 
         isDeath = false;
@@ -39,7 +71,7 @@ public class PlayerMove : MonoBehaviour
     {
         ProcessInputs();
         Move();
-
+        _Damage();
         if (!isDeath)
         {
             Shoot();
@@ -91,18 +123,42 @@ public class PlayerMove : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Enemy"))
         {
-            _hp -= 1;
-            if (_hp < 0)
+
+            if(!_bDamage)
             {
-                //Destroy(gameObject);
-                _animator.SetBool("Death",true);
-                moveDirection = new Vector2(0,0);
-                isDeath = true;
+                _hp -= 1;
+                _bDamage = true;
+                _damageTimeCount = 0;
+
+                if (_hp <= 0)
+                {
+                    //Destroy(gameObject);
+                    _animator.SetBool("Death", true);
+                    moveDirection = new Vector2(0, 0);
+                    isDeath = true;
+                }
             }
+            
         }
     }
 
+    private void _Damage()
+    {
+        if(!_bDamage)return;
 
+        _damageTimeCount += Time.deltaTime;
+
+        float value = Mathf.Repeat(_damageTimeCount, _damageCycle);
+        _spriteRenderer.enabled = value >= _damageCycle * 0.5f;
+
+        if(_damageTimeCount>=_damageTime)
+        {
+            _damageTimeCount = 0;
+            _spriteRenderer.enabled = true;
+            _bDamage = false;
+
+        }
+    }
 
 
 }

@@ -138,6 +138,7 @@ GameObject:
   - component: {fileID: 53277565}
   - component: {fileID: 53277568}
   - component: {fileID: 53277567}
+  - component: {fileID: 53277569}
   m_Layer: 6
   m_Name: luchador-idle-right_0
   m_TagString: Player
@@ -372,6 +373,19 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 3.99
+--- !u!114 &53277569
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 53277560}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4feacf5156ebafb409a7716747649bdb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _isStop: 0
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -487,6 +501,7 @@ GameObject:
   m_Component:
   - component: {fileID: 959199389}
   - component: {fileID: 959199388}
+  - component: {fileID: 959199390}
   m_Layer: 0
   m_Name: EnemySpawner
   m_TagString: Untagged
@@ -530,6 +545,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &959199390
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 959199387}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4feacf5156ebafb409a7716747649bdb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _isStop: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

@@ -53,6 +53,7 @@ public class PlayerMove : MonoBehaviour
     // 被ダメージ中かどうかを示すフラグ
     private bool _bDamage;
 
+    private Pose _pose;
     void Start()
     {
 
@@ -66,15 +67,18 @@ public class PlayerMove : MonoBehaviour
         _animator = GetComponent<Animator>();
 
         isDeath = false;
+        _pose = FindAnyObjectByType<Pose>();// シーン上のPoseを探して参照
     }
     void Update()
     {
-        ProcessInputs();
-        Move();
-        _Damage();
-        if (!isDeath)
-        {
-            Shoot();
+        if (!_pose.isStop) { 
+            ProcessInputs();
+            Move();
+            _Damage();
+            if (!isDeath)
+            {
+                Shoot();
+            }
         }
     }
 

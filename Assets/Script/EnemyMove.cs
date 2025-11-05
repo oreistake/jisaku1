@@ -9,17 +9,23 @@ public class EnemyMove : MonoBehaviour
     [SerializeField] private int _hp;
 
     private SpriteRenderer _spriteRenderer;
+
+    private Pose _pose;
     // Start is called before the first frame update
     void Start()
     {
         playerTr = GameObject.FindGameObjectWithTag("Player").transform;
         _spriteRenderer = GetComponent<SpriteRenderer>();
+        _pose = FindAnyObjectByType<Pose>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        Move();
+        if (!_pose.isStop)
+        {
+            Move();
+        }
     }
 
     private void Move()

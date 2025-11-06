@@ -16,7 +16,7 @@ public class Title : MonoBehaviour
     {
         if (Input.GetMouseButton(0))
         {
-            SceneManager.LoadScene("GameScene");
+            SceneManager.LoadScene("Level_SelectionScene");
         }
     }
 }

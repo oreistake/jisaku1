@@ -3,38 +3,30 @@ using UnityEngine.Tilemaps;
 
 public class CameraController : MonoBehaviour
 {
-    public GameObject player; // 追従するプレイヤー
-    public Tilemap backgroundTilemap; // Tilemap をインスペクターで指定
+    
+    private GameObject player;
 
-    private Camera cam;
-    private float minX, maxX, minY, maxY;
+    private float minX = -22, maxX = 22, minY = -11, maxY = 11;
 
+    // Start is called before the first frame update
     void Start()
     {
-        cam = Camera.main;
-
-        // Tilemap の範囲を取得
-        Bounds bounds = backgroundTilemap.localBounds;
-        minX = bounds.min.x;
-        maxX = bounds.max.x;
-        minY = bounds.min.y;
-        maxY = bounds.max.y;
+        this.player = GameObject.Find("luchador-idle-right_0");
     }
 
+    // Update is called once per frame
     void LateUpdate()
     {
-        if (player == null || cam == null) return;
+        if (player == null) return;
 
-        // カメラの表示範囲
-        float camHeight = cam.orthographicSize * 2f;
-        float camWidth = camHeight * cam.aspect;
-
-        // プレイヤー位置をClamp
         Vector3 playerPos = player.transform.position;
-        float clampX = Mathf.Clamp(playerPos.x, minX + camWidth / 2f, maxX - camWidth / 2f);
-        float clampY = Mathf.Clamp(playerPos.y, minY + camHeight / 2f, maxY - camHeight / 2f);
 
-        // カメラ移動
+        // カメラ位置を制限付きで追従
+        float clampX = Mathf.Clamp(playerPos.x, minX, maxX);
+        float clampY = Mathf.Clamp(playerPos.y, minY, maxY);
+
         transform.position = new Vector3(clampX, clampY, transform.position.z);
     }
+
+
 }

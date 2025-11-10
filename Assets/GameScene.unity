@@ -491,8 +491,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5fdb5acc16e290747837eb9202bbb0d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 0}
-  backgroundTilemap: {fileID: 0}
 --- !u!1 &725086248
 GameObject:
   m_ObjectHideFlags: 0
@@ -572,10 +570,12 @@ MonoBehaviour:
   - {fileID: 3775344323760417080, guid: 64e98352d0faba74e9192d3f5d24ce23, type: 3}
   - {fileID: 2387811297367522508, guid: bdebc908e01356b4f9e1805e041c0727, type: 3}
   - {fileID: 6097316949937400268, guid: 6c884f01c11af0a4691fd4d3fbce9c8c, type: 3}
+  - {fileID: 3315532091931996746, guid: 3f78c3492aa04324dba33701eaa8c53f, type: 3}
   _spawnTimes:
   - 4
   - 4
   - 4
+  - 10
   _spawnCount: 0
 --- !u!4 &959199389
 Transform:

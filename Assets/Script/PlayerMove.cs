@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 //using TMPro.EditorUtilities;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerMove : MonoBehaviour
 {
@@ -18,7 +19,10 @@ public class PlayerMove : MonoBehaviour
     private Vector2 _camPos;
 
     // プレイヤーのHP
-    [SerializeField] private int _hp;
+    [SerializeField] private int _MaxHp;
+
+    // 現在のHP
+    private int _currentHp;
 
     // 死亡状態を判定するフラグ
     private bool isDeath;
@@ -54,6 +58,7 @@ public class PlayerMove : MonoBehaviour
     private bool _bDamage;
 
     private Pose _pose;
+
     void Start()
     {
 
@@ -63,7 +68,7 @@ public class PlayerMove : MonoBehaviour
         _spriteRenderer = GetComponent<SpriteRenderer>();
         _damageTimeCount = 0;
         _bDamage = false;
-
+        _currentHp = _MaxHp;
         _animator = GetComponent<Animator>();
 
         isDeath = false;
@@ -71,15 +76,16 @@ public class PlayerMove : MonoBehaviour
     }
     void Update()
     {
-        if (!_pose.isStop) { 
+        if (!_pose.isStop&& !isDeath) { 
             ProcessInputs();
             Move();
             _Damage();
-            if (!isDeath)
-            {
-                Shoot();
-            }
+            Shoot();
         }
+        else
+        {
+            Invoke(nameof(Death), 3.5f);
+        } 
     }
 
     void ProcessInputs() // 入力処理
@@ -109,7 +115,7 @@ public class PlayerMove : MonoBehaviour
         _animator.SetBool("Walk", moveDirection.x != 0.0f || moveDirection.y != 0.0f);
     }
 
-    void Shoot()
+    void Shoot() // 攻撃
     {
         _mousePos = (Vector2)Camera.main.ScreenToWorldPoint(Input.mousePosition);
         if (Input.GetMouseButtonDown(0))
@@ -123,33 +129,32 @@ public class PlayerMove : MonoBehaviour
 
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnTriggerEnter2D(Collider2D collision) // 当たった時の処理
     {
         if (collision.gameObject.CompareTag("Enemy"))
         {
-
             if(!_bDamage)
             {
-                _hp -= 1;
+                _currentHp--;
                 _bDamage = true;
                 _damageTimeCount = 0;
-
-                if (_hp <= 0)
+                if (_currentHp <= 0)
                 {
-                    //Destroy(gameObject);
                     _animator.SetBool("Death", true);
                     moveDirection = new Vector2(0, 0);
                     isDeath = true;
                 }
             }
-            
         }
     }
 
     private void _Damage()
     {
-        if(!_bDamage)return;
-
+        if (!_bDamage)
+        {
+            _spriteRenderer.enabled = true;
+            return;
+        }
         _damageTimeCount += Time.deltaTime;
 
         float value = Mathf.Repeat(_damageTimeCount, _damageCycle);
@@ -164,5 +169,9 @@ public class PlayerMove : MonoBehaviour
         }
     }
 
+    private void Death()
+    {
+        SceneManager.LoadScene("ResultScene");
+    }
 
 }

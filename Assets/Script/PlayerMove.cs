@@ -177,7 +177,7 @@ public class PlayerMove : MonoBehaviour
 
     private void Death()
     {
-        SceneManager.LoadScene("ResultScene");
+        SceneManager.LoadScene("GameOverScene");
     }
 
     void UpdateHPBar()

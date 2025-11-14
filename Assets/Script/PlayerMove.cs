@@ -19,10 +19,10 @@ public class PlayerMove : MonoBehaviour
     private Vector2 _camPos;
 
     // プレイヤーのHP
-    [SerializeField] private int _MaxHp;
+    [SerializeField] private float _maxHp;
 
     // 現在のHP
-    private int _currentHp;
+    private float _currentHp;
 
     // 死亡状態を判定するフラグ
     private bool isDeath;
@@ -59,6 +59,14 @@ public class PlayerMove : MonoBehaviour
 
     private Pose _pose;
 
+    public SpriteRenderer _hpBarFill;
+    public GameObject _hpBarRoot;
+
+    [SerializeField] float _hideDelay = 2f;
+
+    private Coroutine _hideCoroutine;
+    private Vector3 _hpBarOriginalScale;
+
     void Start()
     {
 
@@ -68,24 +76,37 @@ public class PlayerMove : MonoBehaviour
         _spriteRenderer = GetComponent<SpriteRenderer>();
         _damageTimeCount = 0;
         _bDamage = false;
-        _currentHp = _MaxHp;
+        _currentHp = _maxHp;
         _animator = GetComponent<Animator>();
 
         isDeath = false;
         _pose = FindAnyObjectByType<Pose>();// シーン上のPoseを探して参照
+
+        _hpBarRoot.SetActive(false); // 最初はSpriteRendererを非表示にする
+
+        _hpBarOriginalScale = _hpBarFill.transform.localScale;
     }
     void Update()
     {
         if (!_pose.isStop&& !isDeath) { 
             ProcessInputs();
             Move();
-            _Damage();
+            Damage();
             Shoot();
+            UpdateHPBarPosition();
+
         }
         else
         {
             Invoke(nameof(Death), 3.5f);
         } 
+    }
+
+    void LateUpdate()// Update関数の次に呼ばれる関数
+    {
+        Vector3 scale = _hpBarRoot.transform.localScale;
+        scale.x = Mathf.Abs(scale.x);// 常に正の値にする
+        _hpBarRoot.transform.localScale = scale;
     }
 
     void ProcessInputs() // 入力処理
@@ -115,7 +136,7 @@ public class PlayerMove : MonoBehaviour
         _animator.SetBool("Walk", moveDirection.x != 0.0f || moveDirection.y != 0.0f);
     }
 
-    void Shoot() // 攻撃
+    void Shoot() // 射撃
     {
         _mousePos = (Vector2)Camera.main.ScreenToWorldPoint(Input.mousePosition);
         if (Input.GetMouseButtonDown(0))
@@ -128,33 +149,90 @@ public class PlayerMove : MonoBehaviour
         }
 
     }
+    public void TakeDamage(int damage)
+    {
+        _currentHp -= damage;
+        _currentHp = Mathf.Max(_currentHp, 0);
+        UpdateHPBar();
 
+        // HPバーを表示
+        _hpBarRoot.SetActive(true);
+
+        // 一定時間後に非表示にする
+        if (_hideCoroutine != null)
+            StopCoroutine(_hideCoroutine);
+        _hideCoroutine = StartCoroutine(HideAfterDelay());
+
+        // HPが0になったら敵を破壊
+        if (_currentHp <= 0)
+        {
+            //Destroy(gameObject);
+            _animator.SetBool("Death", true);
+            moveDirection = new Vector2(0, 0);
+            isDeath = true;
+        }
+
+
+    }
+
+    private void Death()
+    {
+        SceneManager.LoadScene("ResultScene");
+    }
+
+    void UpdateHPBar()
+    {
+        float fillAmount = _currentHp / _maxHp;
+        _hpBarFill.transform.localScale = new Vector3(_hpBarOriginalScale.x * fillAmount,
+                                                   _hpBarOriginalScale.y,
+                                                   _hpBarOriginalScale.z);
+
+        // 左端を固定する
+        Vector3 pos = _hpBarFill.transform.localPosition;
+        pos.x = -(_hpBarOriginalScale.x - _hpBarFill.transform.localScale.x) / 2f;
+        _hpBarFill.transform.localPosition = pos;
+    }
+
+    void UpdateHPBarPosition()
+    {
+        if (_hpBarRoot.activeSelf)
+        {
+            Vector3 hpPos = transform.position + new Vector3(0, 1.0f, 0); // 上方向に1単位
+            _hpBarRoot.transform.position = hpPos;
+
+            // 回転は固定（左右反転の影響を受けない）
+            _hpBarRoot.transform.rotation = Quaternion.identity;
+
+            // スケールも反転を打ち消す
+            Vector3 scale = _hpBarRoot.transform.localScale;
+            scale.x = Mathf.Abs(scale.x);
+            _hpBarRoot.transform.localScale = scale;
+        }
+    }
+
+    IEnumerator HideAfterDelay()
+    {
+        yield return new WaitForSeconds(_hideDelay);
+        _hpBarRoot.SetActive(false);
+    }
     private void OnTriggerEnter2D(Collider2D collision) // 当たった時の処理
     {
         if (collision.gameObject.CompareTag("Enemy"))
         {
             if(!_bDamage)
             {
-                _currentHp--;
+                TakeDamage(1);
                 _bDamage = true;
                 _damageTimeCount = 0;
-                if (_currentHp <= 0)
-                {
-                    _animator.SetBool("Death", true);
-                    moveDirection = new Vector2(0, 0);
-                    isDeath = true;
-                }
             }
         }
     }
 
-    private void _Damage()
+
+    private void Damage()
     {
-        if (!_bDamage)
-        {
-            _spriteRenderer.enabled = true;
-            return;
-        }
+        if (!_bDamage) return;
+
         _damageTimeCount += Time.deltaTime;
 
         float value = Mathf.Repeat(_damageTimeCount, _damageCycle);
@@ -167,11 +245,6 @@ public class PlayerMove : MonoBehaviour
             _bDamage = false;
 
         }
-    }
-
-    private void Death()
-    {
-        SceneManager.LoadScene("ResultScene");
     }
 
 }

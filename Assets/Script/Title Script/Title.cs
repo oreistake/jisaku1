@@ -5,10 +5,11 @@ using UnityEngine.SceneManagement;
 
 public class Title : MonoBehaviour
 {
+    private Animator _Animator;
     // Start is called before the first frame update
     void Start()
     {
-        
+        _Animator = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -16,7 +17,13 @@ public class Title : MonoBehaviour
     {
         if (Input.GetMouseButton(0))
         {
-            SceneManager.LoadScene("Level_SelectionScene");
+            _Animator.SetBool("Move", true);
+            Invoke(nameof(SceneTr), 0.8f);
         }
+    }
+
+    void SceneTr()
+    {
+        SceneManager.LoadScene("Level_SelectionScene");
     }
 }

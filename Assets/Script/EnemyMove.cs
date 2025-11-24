@@ -11,6 +11,8 @@ public class EnemyMove : MonoBehaviour
     private SpriteRenderer _spriteRenderer;
 
     private Pose _pose;
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -54,8 +56,9 @@ public class EnemyMove : MonoBehaviour
         if (collision.gameObject.CompareTag("Player")||collision.gameObject.CompareTag("Bullet"))
         {
             _hp -= 1;
-            if (_hp < 0)
+            if (_hp <= 0)
             {
+                EnemyManager.Instance.RegisterDeath();
                 Destroy(gameObject);
             }
         }

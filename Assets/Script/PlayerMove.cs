@@ -22,7 +22,7 @@ public class PlayerMove : MonoBehaviour
     [SerializeField] private float _maxHp;
 
     // 現在のHP
-    private float _currentHp;
+    public float _currentHp;
 
     // 死亡状態を判定するフラグ
     private bool isDeath;
@@ -163,7 +163,7 @@ public class PlayerMove : MonoBehaviour
             StopCoroutine(_hideCoroutine);
         _hideCoroutine = StartCoroutine(HideAfterDelay());
 
-        // HPが0になったら敵を破壊
+        // HPが0になったら死にモーションと動けなくする
         if (_currentHp <= 0)
         {
             //Destroy(gameObject);

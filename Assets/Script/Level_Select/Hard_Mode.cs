@@ -24,7 +24,7 @@ public class Hard_Mode : MonoBehaviour
 
     void SceneTr()
     {
-        SceneManager.LoadScene("GameScene");
+        SceneManager.LoadScene("LoadScene");
     }
     
 }

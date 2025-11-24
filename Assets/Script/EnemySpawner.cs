@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class EnemySpawner : MonoBehaviour
 {
@@ -32,12 +33,18 @@ public class EnemySpawner : MonoBehaviour
         if (_spawnNum > _enemy.Length - 1) return;
 
         _spawnCount += Time.deltaTime;
-        if(_spawnCount >= _spawnTimes[_spawnNum])
-        {
-            Instantiate(_enemy[_spawnNum]);
-            _spawnNum++;
-            _spawnCount = 0.0f;
 
+        if (_spawnCount >= _spawnTimes[_spawnNum])
+        {
+            GameObject enemy = Instantiate(_enemy[_spawnNum]);
+
+            // ¶‘¶”‚ğ“o˜^
+            EnemyManager.Instance.RegisterSpawn();
+
+            _spawnNum++;
+            _spawnCount = 0f;
         }
     }
+
+    
 }

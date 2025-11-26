@@ -38,8 +38,7 @@ public class EnemySpawner : MonoBehaviour
         {
             GameObject enemy = Instantiate(_enemy[_spawnNum]);
 
-            // ¶‘¶”‚ğ“o˜^
-            EnemyManager.Instance.RegisterSpawn();
+           
 
             _spawnNum++;
             _spawnCount = 0f;

@@ -58,7 +58,7 @@ public class EnemyMove : MonoBehaviour
             _hp -= 1;
             if (_hp <= 0)
             {
-                EnemyManager.Instance.RegisterDeath();
+               
                 Destroy(gameObject);
             }
         }

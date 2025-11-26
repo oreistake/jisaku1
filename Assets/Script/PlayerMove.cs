@@ -217,7 +217,7 @@ public class PlayerMove : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D collision) // “–‚½‚Á‚½‚Ìˆ—
     {
-        if (collision.gameObject.CompareTag("Enemy"))
+        if (collision.gameObject.CompareTag("Enemy")|| collision.gameObject.CompareTag("BOSS"))
         {
             if(!_bDamage)
             {

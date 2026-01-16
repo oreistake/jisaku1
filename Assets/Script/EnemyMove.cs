@@ -22,9 +22,9 @@ public class EnemyMove : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
-        if (!_pose.isStop)
+        if (_pose != null && !_pose.isStop)
         {
             Move();
         }

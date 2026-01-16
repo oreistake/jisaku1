@@ -67,9 +67,13 @@ public class PlayerMove : MonoBehaviour
     private Coroutine _hideCoroutine;
     private Vector3 _hpBarOriginalScale;
 
+    private Camera _mainCamera;
+    private float _playerHalfWidth;
+    private float _playerHalfHeight;
+
     void Start()
     {
-
+        
         // FPSを60に設定
         Application.targetFrameRate = 60;
 
@@ -85,21 +89,24 @@ public class PlayerMove : MonoBehaviour
         _hpBarRoot.SetActive(false); // 最初はSpriteRendererを非表示にする
 
         _hpBarOriginalScale = _hpBarFill.transform.localScale;
+
+        _mainCamera = Camera.main;
+
+        Bounds bounds = GetComponent<SpriteRenderer>().bounds;
+        _playerHalfWidth = bounds.extents.x;
+        _playerHalfHeight = bounds.extents.y;
     }
     void Update()
     {
-        if (!_pose.isStop&& !isDeath) { 
-            ProcessInputs();
-            Move();
-            Damage();
-            Shoot();
-            UpdateHPBarPosition();
+        if (isDeath) return;
+        if (_pose != null && _pose.isStop) return;
 
-        }
-        else
-        {
-            Invoke(nameof(Death), 3.5f);
-        } 
+        ProcessInputs();
+        Move();
+        Damage();
+        Shoot();
+        UpdateHPBarPosition();
+
     }
 
     void LateUpdate()// Update関数の次に呼ばれる関数
@@ -111,29 +118,37 @@ public class PlayerMove : MonoBehaviour
 
     void ProcessInputs() // 入力処理
     {
-        if (!isDeath)
+        float moveX = Input.GetAxisRaw("Horizontal");
+        float moveY = Input.GetAxisRaw("Vertical");
+        moveDirection = new Vector2(moveX, moveY).normalized;
+
+        if (moveX > 0)
         {
-            
-            float moveX = Input.GetAxisRaw("Horizontal");
-            float moveY = Input.GetAxisRaw("Vertical");
-            moveDirection = new Vector2(moveX, moveY).normalized;
-
-            if (moveX > 0)
-            {
-                 transform.eulerAngles = new Vector3(0,0,0);
-            }
-            else if (moveX < 0)
-            {
-                transform.eulerAngles = new Vector3(0, 180, 0);
-            }
+                transform.eulerAngles = new Vector3(0,0,0);
         }
-
+        else if (moveX < 0)
+        {
+            transform.eulerAngles = new Vector3(0, 180, 0);
+        }
     }
 
     void Move() // 移動
     {
-        transform.Translate(moveDirection * _moveSpeed * Time.deltaTime,Space.World);
+        transform.Translate(moveDirection * _moveSpeed * Time.deltaTime, Space.World);
+
+        // カメラ範囲を取得（ワールド座標）
+        Vector3 min = _mainCamera.ViewportToWorldPoint(new Vector3(0, 0, 0));
+        Vector3 max = _mainCamera.ViewportToWorldPoint(new Vector3(1, 1, 0));
+
+        // プレイヤー位置を制限
+        Vector3 pos = transform.position;
+        pos.x = Mathf.Clamp(pos.x, min.x + _playerHalfWidth, max.x - _playerHalfWidth);
+        pos.y = Mathf.Clamp(pos.y, min.y + _playerHalfHeight, max.y - _playerHalfHeight);
+        transform.position = pos;
+
+        // アニメーション
         _animator.SetBool("Walk", moveDirection.x != 0.0f || moveDirection.y != 0.0f);
+
     }
 
     void Shoot() // 射撃
@@ -151,6 +166,9 @@ public class PlayerMove : MonoBehaviour
     }
     public void TakeDamage(int damage)
     {
+        if (_pose != null && _pose.isStop) return;
+        if (isDeath) return;
+
         _currentHp -= damage;
         _currentHp = Mathf.Max(_currentHp, 0);
         UpdateHPBar();
@@ -170,6 +188,8 @@ public class PlayerMove : MonoBehaviour
             _animator.SetBool("Death", true);
             moveDirection = new Vector2(0, 0);
             isDeath = true;
+
+            Invoke(nameof(Death), 3.5f);
         }
 
 
@@ -217,9 +237,22 @@ public class PlayerMove : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D collision) // 当たった時の処理
     {
-        if (collision.gameObject.CompareTag("Enemy")|| collision.gameObject.CompareTag("BOSS"))
+        /*if (collision.gameObject.CompareTag("Enemy") || collision.gameObject.CompareTag("BOSS"))
         {
-            if(!_bDamage)
+            if (!_bDamage)
+            {
+                TakeDamage(1);
+                _bDamage = true;
+                _damageTimeCount = 0;
+            }
+        }*/
+        if (_pose != null && _pose.isStop) return;
+        if (isDeath) return;
+
+        if (collision.gameObject.CompareTag("Enemy") ||
+            collision.gameObject.CompareTag("BOSS"))
+        {
+            if (!_bDamage)
             {
                 TakeDamage(1);
                 _bDamage = true;
@@ -246,5 +279,6 @@ public class PlayerMove : MonoBehaviour
 
         }
     }
+
 
 }

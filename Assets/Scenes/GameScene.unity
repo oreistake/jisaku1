@@ -634,7 +634,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 5
+  orthographic size: 10
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -902,13 +902,20 @@ MonoBehaviour:
   _enemy:
   - {fileID: 3775344323760417080, guid: 64e98352d0faba74e9192d3f5d24ce23, type: 3}
   - {fileID: 532425144293893051, guid: 0a860b240429a7146ab8d8f314b1bde2, type: 3}
+  - {fileID: 532425144293893051, guid: cc85432b1616fc947a970636353881dc, type: 3}
+  - {fileID: 532425144293893051, guid: 57f86bb7ff70a3e4dbc601bb5d40dd20, type: 3}
   - {fileID: 532425144293893051, guid: 77c28f0f63edc764e9f2ba7dc4b90420, type: 3}
   - {fileID: 2387811297367522508, guid: bdebc908e01356b4f9e1805e041c0727, type: 3}
   - {fileID: 532425144293893051, guid: 0a860b240429a7146ab8d8f314b1bde2, type: 3}
+  - {fileID: 532425144293893051, guid: cc85432b1616fc947a970636353881dc, type: 3}
+  - {fileID: 532425144293893051, guid: 57f86bb7ff70a3e4dbc601bb5d40dd20, type: 3}
   - {fileID: 532425144293893051, guid: 9753b53275a99d140a4a3b76bfb8d5e2, type: 3}
   - {fileID: 6097316949937400268, guid: 6c884f01c11af0a4691fd4d3fbce9c8c, type: 3}
   - {fileID: 3315532091931996746, guid: 3f78c3492aa04324dba33701eaa8c53f, type: 3}
+  - {fileID: 532425144293893051, guid: cc85432b1616fc947a970636353881dc, type: 3}
+  - {fileID: 532425144293893051, guid: 57f86bb7ff70a3e4dbc601bb5d40dd20, type: 3}
   - {fileID: 532425144293893051, guid: 0a860b240429a7146ab8d8f314b1bde2, type: 3}
+  - {fileID: 532425144293893051, guid: cc85432b1616fc947a970636353881dc, type: 3}
   - {fileID: 3315532091931996746, guid: 5b70a71be625c244d917a75085fbd7fc, type: 3}
   - {fileID: 532425144293893051, guid: 0a860b240429a7146ab8d8f314b1bde2, type: 3}
   - {fileID: 3315532091931996746, guid: 5b70a71be625c244d917a75085fbd7fc, type: 3}
@@ -919,19 +926,26 @@ MonoBehaviour:
   _spawnTimes:
   - 3
   - 3
-  - 3
+  - 0
   - 0
   - 3
   - 0
   - 3
   - 0
-  - 3
+  - 0
   - 3
   - 0
   - 5
   - 0
-  - 5
   - 0
+  - 0
+  - 0
+  - 5
+  - 5
+  - 5
+  - 5
+  - 5
+  - 5
   - 5
   _spawnCount: 0
 --- !u!4 &959199389
@@ -943,7 +957,7 @@ Transform:
   m_GameObject: {fileID: 959199387}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.076912, y: 0.095999524, z: -0.075786225}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -990,7 +1004,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 725086250}

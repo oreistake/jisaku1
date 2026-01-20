@@ -7,7 +7,7 @@ public class GoblinMoveRight : MonoBehaviour
 
     [SerializeField] float _moveSpeed = 1f;
     [SerializeField] float _hp = 1f;
-    float _MaxposX = 44f;
+    float _MaxposX = 62f;
     Transform playerTr; // ÉvÉåÉCÉÑÅ[ÇÃTransform
 
     private SpriteRenderer _spriteRenderer;

@@ -6,7 +6,7 @@ public class CameraController : MonoBehaviour
     
     private GameObject player;
 
-    private float minX = -22, maxX = 22, minY = -11, maxY = 11;
+    private float minX = -44, maxX = 44, minY = -22, maxY = 22;
 
     // Start is called before the first frame update
     void Start()

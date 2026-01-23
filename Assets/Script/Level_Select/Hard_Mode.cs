@@ -7,9 +7,14 @@ using UnityEngine.SceneManagement;
 public class Hard_Mode : MonoBehaviour
 {
     public Animator _Animator;
+
+    private AudioSource _audioSource;
+
+    [SerializeField] AudioClip _clickSe;
     // Start is called before the first frame update
     void Start()
     {
+        _audioSource = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -22,11 +27,15 @@ public class Hard_Mode : MonoBehaviour
 
     public void Hard_Mode_Transition()
     {
-         _Animator.SetBool("Move", true);
-        Invoke(nameof(SceneTr), 1.1f);
+        _audioSource.PlayOneShot(_clickSe);
+        Invoke(nameof(Anime), 0.3f);
+        Invoke(nameof(SceneTr), 1.4f);
     }
 
-
+    void Anime()
+    {
+         _Animator.SetBool("Move", true);
+    }
     void SceneTr()
     {
         SceneManager.LoadScene("LoadScene");

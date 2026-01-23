@@ -71,6 +71,13 @@ public class PlayerMove : MonoBehaviour
     private float _playerHalfWidth;
     private float _playerHalfHeight;
 
+    private AudioSource _audioSource;
+    [SerializeField] AudioClip _shotSe;
+    [SerializeField] AudioClip _DamageSe;
+    [SerializeField] AudioClip _DeathSe;
+
+
+
     void Start()
     {
         
@@ -95,6 +102,8 @@ public class PlayerMove : MonoBehaviour
         Bounds bounds = GetComponent<SpriteRenderer>().bounds;
         _playerHalfWidth = bounds.extents.x;
         _playerHalfHeight = bounds.extents.y;
+
+        _audioSource = GetComponent<AudioSource>();
     }
     void Update()
     {
@@ -161,6 +170,7 @@ public class PlayerMove : MonoBehaviour
 
             _bulletIns = Instantiate(_bullet, transform.position, Quaternion.Euler(0, 0, angle));
             _bulletIns.GetComponent<Rigidbody2D>().velocity = direction * _bulletspeed;
+            _audioSource.PlayOneShot(_shotSe);
         }
 
     }
@@ -188,7 +198,7 @@ public class PlayerMove : MonoBehaviour
             _animator.SetBool("Death", true);
             moveDirection = new Vector2(0, 0);
             isDeath = true;
-
+            _audioSource.PlayOneShot(_DeathSe);
             Invoke(nameof(Death), 3.5f);
         }
 
@@ -255,6 +265,7 @@ public class PlayerMove : MonoBehaviour
             if (!_bDamage)
             {
                 TakeDamage(1);
+                _audioSource.PlayOneShot(_DamageSe);
                 _bDamage = true;
                 _damageTimeCount = 0;
             }

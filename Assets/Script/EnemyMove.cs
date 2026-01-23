@@ -12,13 +12,15 @@ public class EnemyMove : MonoBehaviour
 
     private Pose _pose;
 
-
+    private AudioSource _audioSource;
+    [SerializeField] AudioClip _deathSe;
     // Start is called before the first frame update
     void Start()
     {
         playerTr = GameObject.FindGameObjectWithTag("Player").transform;
         _spriteRenderer = GetComponent<SpriteRenderer>();
         _pose = FindAnyObjectByType<Pose>();
+        _audioSource = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -58,10 +60,16 @@ public class EnemyMove : MonoBehaviour
             _hp -= 1;
             if (_hp <= 0)
             {
-               
-                Destroy(gameObject);
+                _audioSource.PlayOneShot(_deathSe);
+                Invoke(nameof(Delete), 0.1f);
             }
         }
+    }
+
+    void Delete()
+    {
+
+        Destroy(gameObject);
     }
 
 }

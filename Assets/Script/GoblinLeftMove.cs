@@ -6,7 +6,7 @@ public class GoblinLeftMove : MonoBehaviour
 {
     [SerializeField] float _moveSpeed = 1f;
     [SerializeField] float _hp = 1f;
-    float _MaxposX = -32f;
+    float _MaxposX = -64f;
     Transform playerTr; // ÉvÉåÉCÉÑÅ[ÇÃTransform
 
     private SpriteRenderer _spriteRenderer;
@@ -14,11 +14,14 @@ public class GoblinLeftMove : MonoBehaviour
     private Pose _pose;
 
     private Rigidbody2D _rigid2D;
+    private AudioSource _audioSource;
+    [SerializeField] AudioClip _deathSe;
     // Start is called before the first frame update
     void Start()
     {
         _spriteRenderer = GetComponent<SpriteRenderer>();
         _rigid2D = GetComponent<Rigidbody2D>();
+        _audioSource = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -34,10 +37,16 @@ public class GoblinLeftMove : MonoBehaviour
             _hp -= 1;
             if (_hp <= 0)
             {
-
-                Destroy(gameObject);
+                _audioSource.PlayOneShot(_deathSe);
+                Invoke(nameof(Delete), 0.1f);
             }
         }
+    }
+
+    void Delete()
+    {
+        Destroy(gameObject);
+
     }
 
     private void Move()

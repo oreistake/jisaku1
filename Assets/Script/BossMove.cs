@@ -21,6 +21,8 @@ public class BossMove : MonoBehaviour
     private Coroutine _hideCoroutine;
     private Vector3 _hpBarOriginalScale;
     private Vector3 _hpBarOriginalPos;
+    private AudioSource _audioSource;
+    [SerializeField] AudioClip _deathSe;
 
     void Start()
     {
@@ -35,6 +37,7 @@ public class BossMove : MonoBehaviour
 
         _hpBarOriginalScale = _hpBarFill.transform.localScale;
         _hpBarOriginalPos = _hpBarFill.transform.localPosition;
+        _audioSource = GetComponent<AudioSource>();
 
 
     }
@@ -73,6 +76,7 @@ public class BossMove : MonoBehaviour
 
             if (_currentHp <= 0)
             {
+                _audioSource.PlayOneShot(_deathSe);
                 Die();
             }
         }

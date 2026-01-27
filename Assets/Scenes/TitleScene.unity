@@ -275,8 +275,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\u5DE6\u30AF\u30EA\u30C3\u30AF\u3057\u3066\u306D\uFF01"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: a24699ce27f1db44cb087b413dae20c1, type: 2}
-  m_sharedMaterial: {fileID: -4369566091772083376, guid: a24699ce27f1db44cb087b413dae20c1, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 0049a37520c9e3649b86972f9864746c, type: 2}
+  m_sharedMaterial: {fileID: 2341726129471678495, guid: 0049a37520c9e3649b86972f9864746c, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -306,7 +306,7 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 1
+  m_fontStyle: 0
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
@@ -3283,7 +3283,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 35cf7766e9e2aa542811e896fde57989, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.2
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -3396,7 +3396,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 0ad591428b0c18c4da51fe3bf98dbc63, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.37
+  m_Volume: 0.2
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -3598,7 +3598,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -90, y: 200.28}
-  m_SizeDelta: {x: 886.5182, y: 174.4663}
+  m_SizeDelta: {x: 961.38, y: 174.4663}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1965743438
 MonoBehaviour:
@@ -3622,8 +3622,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\u30B9\u30AD\u30EB\u30C0\u30F3\u30B8\u30E7\u30F3"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: a24699ce27f1db44cb087b413dae20c1, type: 2}
-  m_sharedMaterial: {fileID: -4369566091772083376, guid: a24699ce27f1db44cb087b413dae20c1, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 0049a37520c9e3649b86972f9864746c, type: 2}
+  m_sharedMaterial: {fileID: 2341726129471678495, guid: 0049a37520c9e3649b86972f9864746c, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -3653,7 +3653,7 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 1
+  m_fontStyle: 0
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535

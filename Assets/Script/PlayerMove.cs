@@ -270,6 +270,11 @@ public class PlayerMove : MonoBehaviour
                 _damageTimeCount = 0;
             }
         }
+
+        if(collision.gameObject.CompareTag("Item"))
+        {
+
+        }
     }
 
 

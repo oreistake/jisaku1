@@ -7,7 +7,8 @@ public class EnemyMove : MonoBehaviour
     Transform playerTr; // ÉvÉåÉCÉÑÅ[ÇÃTransform
     [SerializeField] float _speed = 2.0f;
     [SerializeField] private int _hp;
-
+    bool _dead = false;
+    //public GameObject dropItem;
     private SpriteRenderer _spriteRenderer;
 
     private Pose _pose;
@@ -58,8 +59,11 @@ public class EnemyMove : MonoBehaviour
         if (collision.gameObject.CompareTag("Player")||collision.gameObject.CompareTag("Bullet"))
         {
             _hp -= 1;
-            if (_hp <= 0)
+            if (_hp <= 0&&!_dead)
             {
+                _dead = true;
+                _speed = 0;
+                //Instantiate(dropItem, transform.position, Quaternion.identity);
                 _audioSource.PlayOneShot(_deathSe);
                 Invoke(nameof(Delete), 0.1f);
             }

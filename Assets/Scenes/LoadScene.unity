@@ -579,7 +579,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 033766cc31c97904bae4404b8a079544, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.37
+  m_Volume: 0.2
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -911,8 +911,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\u30B2\u30FC\u30E0\u30D2\u30F3\u30C8\uFF1A\u3068\u306B\u304B\u304F\u305F\u304F\u3055\u3093\u30AF\u30EA\u30C3\u30AF\u3057\u3066\u304F\u3060\u3055\u3044\uFF01"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: a24699ce27f1db44cb087b413dae20c1, type: 2}
-  m_sharedMaterial: {fileID: -4369566091772083376, guid: a24699ce27f1db44cb087b413dae20c1, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 0049a37520c9e3649b86972f9864746c, type: 2}
+  m_sharedMaterial: {fileID: 2341726129471678495, guid: 0049a37520c9e3649b86972f9864746c, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []

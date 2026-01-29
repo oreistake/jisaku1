@@ -3,6 +3,7 @@ using System.Collections.Generic;
 //using TMPro.EditorUtilities;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class PlayerMove : MonoBehaviour
 {
@@ -76,7 +77,7 @@ public class PlayerMove : MonoBehaviour
     [SerializeField] AudioClip _DamageSe;
     [SerializeField] AudioClip _DeathSe;
 
-
+    [SerializeField] Slider _slider;
 
     void Start()
     {
@@ -104,6 +105,9 @@ public class PlayerMove : MonoBehaviour
         _playerHalfHeight = bounds.extents.y;
 
         _audioSource = GetComponent<AudioSource>();
+        _slider = GetComponent<Slider>();
+        
+
     }
     void Update()
     {

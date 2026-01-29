@@ -77,7 +77,11 @@ public class PlayerMove : MonoBehaviour
     [SerializeField] AudioClip _DamageSe;
     [SerializeField] AudioClip _DeathSe;
 
-    [SerializeField] Slider _slider;
+    [SerializeField] private Slider _gauge; // ゲージバー
+    public float _maxGaugeValue = 5; // 最大値
+    [SerializeField] private float _currentGaugeValue; // 現在値
+    private float _velocity = 0; // スムーズな変化用
+    private bool _isMaxGauge = false;
 
     void Start()
     {
@@ -105,7 +109,11 @@ public class PlayerMove : MonoBehaviour
         _playerHalfHeight = bounds.extents.y;
 
         _audioSource = GetComponent<AudioSource>();
-        _slider = GetComponent<Slider>();
+
+        _currentGaugeValue = 0;
+        _gauge.maxValue = _maxGaugeValue;
+        _gauge.value = 0;
+
         
 
     }
@@ -114,6 +122,9 @@ public class PlayerMove : MonoBehaviour
         if (isDeath) return;
         if (_pose != null && _pose.isStop) return;
 
+        _gauge.value = Mathf.SmoothDamp(_gauge.value, _currentGaugeValue, ref _velocity, 0.1f);
+
+        CheckGaugeMax();
         ProcessInputs();
         Move();
         Damage();
@@ -275,9 +286,17 @@ public class PlayerMove : MonoBehaviour
             }
         }
 
-        if(collision.gameObject.CompareTag("Item"))
+        if (collision.gameObject.CompareTag("Item"))
         {
-
+            if (_currentGaugeValue < _maxGaugeValue)
+            {
+                _currentGaugeValue++;
+                Destroy(collision.gameObject);
+            }
+            if(_currentGaugeValue > _maxGaugeValue)
+            {
+                _maxGaugeValue = 0;
+            }
         }
     }
 
@@ -300,5 +319,39 @@ public class PlayerMove : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// ゲージがMAXになったか
+    /// </summary>
+    void CheckGaugeMax()
+    {
+        if (_currentGaugeValue >= _maxGaugeValue && !_isMaxGauge)
+        {
+            _isMaxGauge = true;
 
+            OnGaugeMax();
+            ResetGauge();
+        }
+    }
+    /// <summary>
+    /// ゲージがMAXになったときの処理
+    /// </summary>
+    void OnGaugeMax()
+    {
+
+        _currentHp += _maxHp;
+        if(_currentHp > _maxHp)
+        {
+            _currentHp = _maxHp;
+        }
+
+    }
+
+    /// <summary>
+    /// ゲージをリセット
+    /// </summary>
+    void ResetGauge()
+    {
+        _currentGaugeValue = 0;
+        _isMaxGauge = false;
+    }
 }

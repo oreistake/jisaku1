@@ -8,7 +8,7 @@ public class EnemyMove : MonoBehaviour
     [SerializeField] float _speed = 2.0f;
     [SerializeField] private int _hp;
     bool _dead = false;
-    //public GameObject dropItem;
+    public GameObject dropItem;
     private SpriteRenderer _spriteRenderer;
 
     private Pose _pose;
@@ -63,7 +63,7 @@ public class EnemyMove : MonoBehaviour
             {
                 _dead = true;
                 _speed = 0;
-                //Instantiate(dropItem, transform.position, Quaternion.identity);
+                Instantiate(dropItem, transform.position, Quaternion.identity);
                 _audioSource.PlayOneShot(_deathSe);
                 Invoke(nameof(Delete), 0.1f);
             }

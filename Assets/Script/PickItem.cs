@@ -8,9 +8,6 @@ public class PickItem : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            // ここで所持数を増やすなど
-            Debug.Log("アイテム取得！");
-
             Destroy(gameObject);
         }
     }

@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+//using UnityEngine.UIElements;
+//using Slider = UnityEngine.UI.Slider;
 
 public class PlayerMove : MonoBehaviour
 {
@@ -32,7 +34,9 @@ public class PlayerMove : MonoBehaviour
     [SerializeField] private float _bulletspeed = 3.0f;
 
     // 弾のPrefab
-    [SerializeField] private GameObject _bullet;
+    [SerializeField] private GameObject _bullet1;
+    [SerializeField] private GameObject _bullet2;
+    [SerializeField] private GameObject _bullet3;
 
     // 実際に生成された弾のインスタンスを格納する変数
     private GameObject _bulletIns;
@@ -59,9 +63,15 @@ public class PlayerMove : MonoBehaviour
     private bool _bDamage;
 
     private Pose _pose;
+    private bool _isLevelUp   = false;
 
     public SpriteRenderer _hpBarFill;
     public GameObject _hpBarRoot;
+
+    [SerializeField] GameObject _levelUpPanel;
+
+    //[SerializeField] GameObject _HealBotton;
+    [SerializeField] private Animator _levelUpAnimator;
 
     [SerializeField] float _hideDelay = 2f;
 
@@ -76,6 +86,7 @@ public class PlayerMove : MonoBehaviour
     [SerializeField] AudioClip _shotSe;
     [SerializeField] AudioClip _DamageSe;
     [SerializeField] AudioClip _DeathSe;
+    [SerializeField] AudioClip _LevelUpSe;
 
     [SerializeField] private Slider _gauge; // ゲージバー
     public float _maxGaugeValue = 5; // 最大値
@@ -94,7 +105,7 @@ public class PlayerMove : MonoBehaviour
         _bDamage = false;
         _currentHp = _maxHp;
         _animator = GetComponent<Animator>();
-
+        _levelUpAnimator = GetComponent<Animator>();
         isDeath = false;
         _pose = FindAnyObjectByType<Pose>();// シーン上のPoseを探して参照
 
@@ -114,6 +125,7 @@ public class PlayerMove : MonoBehaviour
         _gauge.maxValue = _maxGaugeValue;
         _gauge.value = 0;
 
+        _levelUpPanel.SetActive(false);
         
 
     }
@@ -121,6 +133,7 @@ public class PlayerMove : MonoBehaviour
     {
         if (isDeath) return;
         if (_pose != null && _pose.isStop) return;
+        if(_isLevelUp) return;
 
         _gauge.value = Mathf.SmoothDamp(_gauge.value, _currentGaugeValue, ref _velocity, 0.1f);
 
@@ -142,6 +155,10 @@ public class PlayerMove : MonoBehaviour
 
     void ProcessInputs() // 入力処理
     {
+
+        if (Time.timeScale == 0f) return;
+        if (_pose != null && _pose.isStop) return;
+
         float moveX = Input.GetAxisRaw("Horizontal");
         float moveY = Input.GetAxisRaw("Vertical");
         moveDirection = new Vector2(moveX, moveY).normalized;
@@ -158,6 +175,11 @@ public class PlayerMove : MonoBehaviour
 
     void Move() // 移動
     {
+
+        if (Time.timeScale == 0f) return;
+        if (_pose != null && _pose.isStop) return;
+
+
         transform.Translate(moveDirection * _moveSpeed * Time.deltaTime, Space.World);
 
         // カメラ範囲を取得（ワールド座標）
@@ -177,13 +199,16 @@ public class PlayerMove : MonoBehaviour
 
     void Shoot() // 射撃
     {
+        if (Time.timeScale == 0f) return;
+        if (_pose != null && _pose.isStop) return;
+
         _mousePos = (Vector2)Camera.main.ScreenToWorldPoint(Input.mousePosition);
         if (Input.GetMouseButtonDown(0))
         {
             Vector2 direction = (_mousePos - (Vector2)transform.position).normalized;
             float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
 
-            _bulletIns = Instantiate(_bullet, transform.position, Quaternion.Euler(0, 0, angle));
+            _bulletIns = Instantiate(_bullet1, transform.position, Quaternion.Euler(0, 0, angle));
             _bulletIns.GetComponent<Rigidbody2D>().velocity = direction * _bulletspeed;
             _audioSource.PlayOneShot(_shotSe);
         }
@@ -192,6 +217,7 @@ public class PlayerMove : MonoBehaviour
     public void TakeDamage(int damage)
     {
         if (_pose != null && _pose.isStop) return;
+        if(_isLevelUp) return;
         if (isDeath) return;
 
         _currentHp -= damage;
@@ -272,6 +298,7 @@ public class PlayerMove : MonoBehaviour
             }
         }*/
         if (_pose != null && _pose.isStop) return;
+        if(_isLevelUp) return;
         if (isDeath) return;
 
         if (collision.gameObject.CompareTag("Enemy") ||
@@ -327,6 +354,7 @@ public class PlayerMove : MonoBehaviour
         if (_currentGaugeValue >= _maxGaugeValue && !_isMaxGauge)
         {
             _isMaxGauge = true;
+            _isLevelUp = true;
 
             OnGaugeMax();
             ResetGauge();
@@ -338,12 +366,13 @@ public class PlayerMove : MonoBehaviour
     void OnGaugeMax()
     {
 
-        _currentHp += _maxHp;
-        if(_currentHp > _maxHp)
-        {
-            _currentHp = _maxHp;
-        }
+        _audioSource.PlayOneShot(_LevelUpSe);
 
+        _levelUpPanel.SetActive(true);
+
+        _levelUpAnimator.SetBool("Move", true);
+
+        Time.timeScale = 0.0f;
     }
 
     /// <summary>
@@ -354,4 +383,50 @@ public class PlayerMove : MonoBehaviour
         _currentGaugeValue = 0;
         _isMaxGauge = false;
     }
+
+    public void HealHp()
+    {
+        // HP回復
+        _currentHp += _maxHp;   // 全回復したい場合
+        if (_currentHp > _maxHp)
+        {
+            _currentHp = _maxHp;
+        }
+
+        UpdateHPBar();
+
+
+        // パネルを閉じる
+        _levelUpPanel.SetActive(false);
+
+        _isLevelUp = false;
+
+        // ゲーム再開
+        Time.timeScale = 1.0f;
+    }
+
+    //public void AttackPlus()
+    //{
+
+    //    //Vector2 direction = (_mousePos - (Vector2)transform.position).normalized;
+    //    //float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+
+    //    //_bulletIns = Instantiate(_bullet2, transform.position, Quaternion.Euler(100, 0, angle));
+    //    //_bulletIns.GetComponent<Rigidbody2D>().velocity = direction * _bulletspeed;
+
+    //    //Vector2 direction1 = (_mousePos - (Vector2)transform.position).normalized;
+    //    //float angle1 = Mathf.Atan2(direction1.y, direction1.x) * Mathf.Rad2Deg;
+
+    //    //_bulletIns = Instantiate(_bullet2, transform.position, Quaternion.Euler(-100, 0, angle));
+    //    //_bulletIns.GetComponent<Rigidbody2D>().velocity = direction1 * _bulletspeed;
+
+
+    //    // パネルを閉じる
+    //    _levelUpPanel.SetActive(false);
+
+    //    _isLevelUp = false;
+
+    //    // ゲーム再開
+    //    Time.timeScale = 1.0f;
+    //}
 }

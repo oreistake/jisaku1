@@ -9,7 +9,7 @@ public class GoblinMoveA : MonoBehaviour
     [SerializeField] float _hp = 1f;
     float _MaxposX = 64f;
     float _MaxposY = -42f;
-    Transform playerTr; // ƒvƒŒƒCƒ„[‚ÌTransform
+    Transform playerTr; // ï¿½vï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½[ï¿½ï¿½Transform
 
     private SpriteRenderer _spriteRenderer;
 
@@ -54,7 +54,7 @@ public class GoblinMoveA : MonoBehaviour
 
     private void Move()
     {
-        _rigid2D.velocity = (Vector2.right + Vector2.down) * _moveSpeed;
+        _rigid2D.linearVelocity = (Vector2.right + Vector2.down) * _moveSpeed;
 
         if (transform.position.x > _MaxposX || transform.position.y < _MaxposY)
         {

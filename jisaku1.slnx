@@ -1,0 +1,5 @@
+﻿<Solution>
+  <Project Path="AnimatedBattleText.Example.Damage.csproj" />
+  <Project Path="Assembly-CSharp.csproj" />
+  <Project Path="BattleText.csproj" />
+</Solution>

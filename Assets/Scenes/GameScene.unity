@@ -22243,7 +22243,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1886723869}
         m_TargetAssemblyTypeName: PlayerMove, Assembly-CSharp
-        m_MethodName: HealHp
+        m_MethodName: AttackSword
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -23035,9 +23035,17 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8282872505745809605, guid: 5e4eed9020d1dc941b8447d11ddc8dce, type: 3}
+      propertyPath: Sword
+      value: 
+      objectReference: {fileID: 1422293252326171398, guid: cb6a7aafdc4c83c488bd947d085d4099, type: 3}
+    - target: {fileID: 8282872505745809605, guid: 5e4eed9020d1dc941b8447d11ddc8dce, type: 3}
       propertyPath: _gauge
       value: 
       objectReference: {fileID: 1945435739}
+    - target: {fileID: 8282872505745809605, guid: 5e4eed9020d1dc941b8447d11ddc8dce, type: 3}
+      propertyPath: _maxHp
+      value: 100
+      objectReference: {fileID: 0}
     - target: {fileID: 8282872505745809605, guid: 5e4eed9020d1dc941b8447d11ddc8dce, type: 3}
       propertyPath: _bullet1
       value: 
@@ -23054,6 +23062,10 @@ PrefabInstance:
       propertyPath: _HealBotton
       value: 
       objectReference: {fileID: 1623440129}
+    - target: {fileID: 8282872505745809605, guid: 5e4eed9020d1dc941b8447d11ddc8dce, type: 3}
+      propertyPath: swordMaxTime
+      value: 30
+      objectReference: {fileID: 0}
     - target: {fileID: 8282872505745809605, guid: 5e4eed9020d1dc941b8447d11ddc8dce, type: 3}
       propertyPath: _levelUpPanel
       value: 

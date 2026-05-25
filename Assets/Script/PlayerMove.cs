@@ -14,6 +14,9 @@ public class PlayerMove : MonoBehaviour
     private Animator _animator;
     [SerializeField] GameObject Sword;
     public bool swordPick;
+    [SerializeField]private int swordMaxTime;
+    private int swordTime;
+    private Vector2 swordPosition;
     // �v���C���[�̈ړ����x
     [SerializeField] private float _moveSpeed = 5f;
 
@@ -159,11 +162,9 @@ public class PlayerMove : MonoBehaviour
         Damage();
         //Shoot();
         UpdateHPBarPosition();
-        currentPos = gameObject.transform.position;
-        if(swordPick)
-        {
+        swordPosition = gameObject.transform.position;
 
-        }
+      
     }
 
     private void FixedUpdate()
@@ -174,6 +175,12 @@ public class PlayerMove : MonoBehaviour
             Shoot();
             _shootCount = 0;
             //_shootCheck = true;
+        }
+        swordTime++;
+        if (swordPick&&swordTime>=swordMaxTime)
+        {
+            swordTime = 0;
+            AttackSword();
         }
     }
 
@@ -438,12 +445,18 @@ public class PlayerMove : MonoBehaviour
         Time.timeScale = 1.0f;
     }
 
-    //public void AttackSword()
-    //{
-        
-    //    float angle = Mathf.Atan2(moveDirection.y, moveDirection.x) * Mathf.Rad2Deg;
-    //    Instantiate(Sword,currentPos, Quaternion.Euler(0, 0, angle));
-    //}
+    public void AttackSword()
+    {
+        swordPick = true;
+        swordPosition = gameObject.transform.position;
+        float angle = Mathf.Atan2(moveDirection.y, moveDirection.x) * Mathf.Rad2Deg;
+        Instantiate(Sword, swordPosition, Quaternion.Euler(0, 0, angle));
+        _levelUpPanel.SetActive(false);
+
+        _isLevelUp = false;
+
+        Time.timeScale = 1.0f;
+    }
 
     //public void AttackPlus()
     //{

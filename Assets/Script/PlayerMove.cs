@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using UnityEngine.UIElements;
 //using UnityEngine.UIElements;
 //using Slider = UnityEngine.UI.Slider;
 
@@ -11,12 +12,14 @@ public class PlayerMove : MonoBehaviour
 {
     // �v���C���[�̃A�j���[�V��������p
     private Animator _animator;
-
+    [SerializeField] GameObject Sword;
+    public bool swordPick;
     // �v���C���[�̈ړ����x
     [SerializeField] private float _moveSpeed = 5f;
 
     // �v���C���[�̈ړ�����
     private Vector2 moveDirection;
+    [SerializeField]private Vector2 currentPos;
 
     // �J�����̈ʒu
     private Vector2 _camPos;
@@ -65,6 +68,11 @@ public class PlayerMove : MonoBehaviour
     private Pose _pose;
     private bool _isLevelUp   = false;
 
+    //private bool _shootCheck;
+    [SerializeField] private int _shootMaxCount;
+    [SerializeField] private int _shootCount;
+
+
     public SpriteRenderer _hpBarFill;
     public GameObject _hpBarRoot;
 
@@ -88,7 +96,7 @@ public class PlayerMove : MonoBehaviour
     [SerializeField] AudioClip _DeathSe;
     [SerializeField] AudioClip _LevelUpSe;
 
-    [SerializeField] private Slider _gauge; // �Q�[�W�o�[
+    [SerializeField] private UnityEngine.UI.Slider _gauge; // �Q�[�W�o�[
     public float _maxGaugeValue = 5; // �ő�l
     [SerializeField] private float _currentGaugeValue; // ���ݒl
     private float _velocity = 0; // �X���[�Y�ȕω��p
@@ -100,6 +108,7 @@ public class PlayerMove : MonoBehaviour
         // FPS��60�ɐݒ�
         Application.targetFrameRate = 60;
 
+        swordPick = false;
         _spriteRenderer = GetComponent<SpriteRenderer>();
         _damageTimeCount = 0;
         _bDamage = false;
@@ -108,6 +117,13 @@ public class PlayerMove : MonoBehaviour
         _levelUpAnimator = GetComponent<Animator>();
         isDeath = false;
         _pose = FindAnyObjectByType<Pose>();// �V�[�����Pose��T���ĎQ��
+        
+        
+        //
+        //_shootCheck = false;
+        //_shootMaxCount = 0;
+        _shootCount = 0;
+        //
 
         _hpBarRoot.SetActive(false); // �ŏ���SpriteRenderer���\���ɂ���
 
@@ -141,10 +157,26 @@ public class PlayerMove : MonoBehaviour
         ProcessInputs();
         Move();
         Damage();
-        Shoot();
+        //Shoot();
         UpdateHPBarPosition();
+        currentPos = gameObject.transform.position;
+        if(swordPick)
+        {
 
+        }
     }
+
+    private void FixedUpdate()
+    {
+        _shootCount++;
+        if(_shootCount >= _shootMaxCount)
+        {
+            Shoot();
+            _shootCount = 0;
+            //_shootCheck = true;
+        }
+    }
+
 
     void LateUpdate()// Update�֐��̎��ɌĂ΂��֐�
     {
@@ -203,15 +235,16 @@ public class PlayerMove : MonoBehaviour
         if (_pose != null && _pose.isStop) return;
 
         _mousePos = (Vector2)Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        if (Input.GetMouseButtonDown(0))
-        {
-            Vector2 direction = (_mousePos - (Vector2)transform.position).normalized;
-            float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+        //if (Input.GetMouseButtonDown(0))
+        //if (_shootCheck)
+        //{
+        Vector2 direction = (_mousePos - (Vector2)transform.position).normalized;
+        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
 
-            _bulletIns = Instantiate(_bullet1, transform.position, Quaternion.Euler(0, 0, angle));
-            _bulletIns.GetComponent<Rigidbody2D>().linearVelocity = direction * _bulletspeed;
-            _audioSource.PlayOneShot(_shotSe);
-        }
+        _bulletIns = Instantiate(_bullet1, transform.position, Quaternion.Euler(0, 0, angle));
+        _bulletIns.GetComponent<Rigidbody2D>().linearVelocity = direction * _bulletspeed;
+        _audioSource.PlayOneShot(_shotSe);
+        //}
 
     }
     public void TakeDamage(int damage)
@@ -404,6 +437,13 @@ public class PlayerMove : MonoBehaviour
         // �Q�[���ĊJ
         Time.timeScale = 1.0f;
     }
+
+    //public void AttackSword()
+    //{
+        
+    //    float angle = Mathf.Atan2(moveDirection.y, moveDirection.x) * Mathf.Rad2Deg;
+    //    Instantiate(Sword,currentPos, Quaternion.Euler(0, 0, angle));
+    //}
 
     //public void AttackPlus()
     //{

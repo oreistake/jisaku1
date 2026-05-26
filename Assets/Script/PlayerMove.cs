@@ -12,11 +12,11 @@ public class PlayerMove : MonoBehaviour
 {
     // �v���C���[�̃A�j���[�V��������p
     private Animator _animator;
-    [SerializeField] GameObject Sword;
-    public bool swordPick;
-    [SerializeField]private int swordMaxTime;
-    private int swordTime;
-    private Vector2 swordPosition;
+    [SerializeField] GameObject Axe;
+    public bool axePick;
+    [SerializeField]private int axeMaxTime;
+    private int axeTime;
+    private Vector2 axePosition;
     // �v���C���[�̈ړ����x
     [SerializeField] private float _moveSpeed = 5f;
 
@@ -111,7 +111,7 @@ public class PlayerMove : MonoBehaviour
         // FPS��60�ɐݒ�
         Application.targetFrameRate = 60;
 
-        swordPick = false;
+        axePick = false;
         _spriteRenderer = GetComponent<SpriteRenderer>();
         _damageTimeCount = 0;
         _bDamage = false;
@@ -161,9 +161,9 @@ public class PlayerMove : MonoBehaviour
         Damage();
         //Shoot();
         UpdateHPBarPosition();
-        swordPosition = gameObject.transform.position;
-
-      
+        
+        Axe.transform.position = gameObject.transform.position;
+        axePosition = Axe.transform.position;
     }
 
     private void FixedUpdate()
@@ -175,12 +175,13 @@ public class PlayerMove : MonoBehaviour
             _shootCount = 0;
             //_shootCheck = true;
         }
-        if(swordPick)
+        if (axePick)
         {
-            swordTime++;
-            if (swordPick&&swordTime>=swordMaxTime)
+            axeTime++;
+                Axe.transform.Rotate(0,0,-10);
+            if (axeTime >= axeMaxTime)
             {
-                swordTime = 0;
+                axeTime = 0;
                 AttackSword();
             }
         }
@@ -444,7 +445,7 @@ public class PlayerMove : MonoBehaviour
 
     public void AttackSword()
     {
-        swordPick = true;
+        axePick = true;
         //float swordsizeX = Sword.gameObject.transform.localScale.x;
         //float swordsizeY = Sword.gameObject.transform.localScale.y;
         //float swordsizeX = 0.1f;
@@ -453,7 +454,7 @@ public class PlayerMove : MonoBehaviour
         //swordsizeX++;
         //swordsizeY++;
         //Sword.gameObject.transform.localScale = new Vector3(swordsizeX, swordsizeY, 0);
-        Sword.transform.localScale = new Vector3(2, 2, 0);
+        //Sword.transform.localScale = new Vector3(2, 2, 0);
         //if (swordsizeX >= 2 && swordsizeY >= 2)
         //{
         //    swordsizeX--;
@@ -465,10 +466,10 @@ public class PlayerMove : MonoBehaviour
         //    swordsizeY = 0;
         //}
 
-        Sword.transform.position = gameObject.transform.position;
-        //float angle = Mathf.Atan2(moveDirection.y, moveDirection.x) * Mathf.Rad2Deg;
-        //Instantiate(Sword, swordPosition, Quaternion.Euler(0, 0, angle));
-        Sword.SetActive(true);
+        GameObject goAxe = Instantiate(Axe, axePosition, Quaternion.identity);
+        goAxe.GetComponent<Rigidbody2D>().linearVelocity = moveDirection * 5;
+        Axe = goAxe;
+        Axe.transform.Rotate(0, 0, 10);
         LevelUp();
 
     }

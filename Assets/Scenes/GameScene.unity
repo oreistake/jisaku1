@@ -23035,9 +23035,13 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8282872505745809605, guid: 5e4eed9020d1dc941b8447d11ddc8dce, type: 3}
+      propertyPath: Axe
+      value: 
+      objectReference: {fileID: 8343089881100850123, guid: da1f980838951b94fb6e32d374805318, type: 3}
+    - target: {fileID: 8282872505745809605, guid: 5e4eed9020d1dc941b8447d11ddc8dce, type: 3}
       propertyPath: Sword
       value: 
-      objectReference: {fileID: 1422293252326171398, guid: cb6a7aafdc4c83c488bd947d085d4099, type: 3}
+      objectReference: {fileID: 0}
     - target: {fileID: 8282872505745809605, guid: 5e4eed9020d1dc941b8447d11ddc8dce, type: 3}
       propertyPath: _gauge
       value: 
@@ -23058,6 +23062,10 @@ PrefabInstance:
       propertyPath: _bullet3
       value: 
       objectReference: {fileID: 8122364379631609285, guid: 59296d03cf9cade48a62d5825c8e72db, type: 3}
+    - target: {fileID: 8282872505745809605, guid: 5e4eed9020d1dc941b8447d11ddc8dce, type: 3}
+      propertyPath: axeMaxTime
+      value: 50
+      objectReference: {fileID: 0}
     - target: {fileID: 8282872505745809605, guid: 5e4eed9020d1dc941b8447d11ddc8dce, type: 3}
       propertyPath: _HealBotton
       value: 

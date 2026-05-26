@@ -145,7 +145,6 @@ public class PlayerMove : MonoBehaviour
         _gauge.value = 0;
 
         _levelUpPanel.SetActive(false);
-        
 
     }
     void Update()
@@ -176,11 +175,14 @@ public class PlayerMove : MonoBehaviour
             _shootCount = 0;
             //_shootCheck = true;
         }
-        swordTime++;
-        if (swordPick&&swordTime>=swordMaxTime)
+        if(swordPick)
         {
-            swordTime = 0;
-            AttackSword();
+            swordTime++;
+            if (swordPick&&swordTime>=swordMaxTime)
+            {
+                swordTime = 0;
+                AttackSword();
+            }
         }
     }
 
@@ -435,29 +437,50 @@ public class PlayerMove : MonoBehaviour
 
         UpdateHPBar();
 
+        LevelUp();
 
-        // �p�l�������
-        _levelUpPanel.SetActive(false);
 
-        _isLevelUp = false;
-
-        // �Q�[���ĊJ
-        Time.timeScale = 1.0f;
     }
 
     public void AttackSword()
     {
         swordPick = true;
-        swordPosition = gameObject.transform.position;
-        float angle = Mathf.Atan2(moveDirection.y, moveDirection.x) * Mathf.Rad2Deg;
-        Instantiate(Sword, swordPosition, Quaternion.Euler(0, 0, angle));
+        //float swordsizeX = Sword.gameObject.transform.localScale.x;
+        //float swordsizeY = Sword.gameObject.transform.localScale.y;
+        //float swordsizeX = 0.1f;
+        //float swordsizeY = 0.1f;
+        //swordPosition = gameObject.transform.position;
+        //swordsizeX++;
+        //swordsizeY++;
+        //Sword.gameObject.transform.localScale = new Vector3(swordsizeX, swordsizeY, 0);
+        Sword.transform.localScale = new Vector3(2, 2, 0);
+        //if (swordsizeX >= 2 && swordsizeY >= 2)
+        //{
+        //    swordsizeX--;
+        //    swordsizeY--;
+        //}
+        //if (swordsizeX <= 0 && swordsizeY <= 0)
+        //{
+        //    swordsizeX = 0;
+        //    swordsizeY = 0;
+        //}
+
+        Sword.transform.position = gameObject.transform.position;
+        //float angle = Mathf.Atan2(moveDirection.y, moveDirection.x) * Mathf.Rad2Deg;
+        //Instantiate(Sword, swordPosition, Quaternion.Euler(0, 0, angle));
+        Sword.SetActive(true);
+        LevelUp();
+
+    }
+
+    void LevelUp()
+    {
         _levelUpPanel.SetActive(false);
 
         _isLevelUp = false;
 
         Time.timeScale = 1.0f;
     }
-
     //public void AttackPlus()
     //{
 

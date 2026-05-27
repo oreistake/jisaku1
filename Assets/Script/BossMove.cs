@@ -67,7 +67,7 @@ public class BossMove : MonoBehaviour
         if (_death) return;
 
 
-        if (collision.CompareTag("Bullet") || collision.CompareTag("Player"))
+        if (collision.CompareTag("Bullet") || collision.CompareTag("Player") || collision.gameObject.CompareTag("Weapon"))
         {
             _currentHp--;
 

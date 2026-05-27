@@ -8,6 +8,7 @@ using UnityEngine.UIElements;
 //using UnityEngine.UIElements;
 //using Slider = UnityEngine.UI.Slider;
 
+
 public class PlayerMove : MonoBehaviour
 {
     // �v���C���[�̃A�j���[�V��������p
@@ -452,7 +453,16 @@ public class PlayerMove : MonoBehaviour
 
         _Axeobj = Instantiate(_AxePrefab, axePosition, Quaternion.identity);
         Rigidbody2D rb2d = _Axeobj.GetComponent<Rigidbody2D>();
-
+        rb2d.linearVelocity = new Vector2(Random.Range(-3,3),8);
+        if(rb2d.linearVelocity.x <= 0)
+        {
+            rb2d.angularVelocity = 360;
+        }
+        if (rb2d.linearVelocity.x > 0)
+        {
+            rb2d.angularVelocity = -360;
+        }
+        Destroy(_Axeobj ,5.0f);
         LevelUp();
 
     }

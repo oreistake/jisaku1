@@ -12,7 +12,8 @@ public class PlayerMove : MonoBehaviour
 {
     // �v���C���[�̃A�j���[�V��������p
     private Animator _animator;
-    [SerializeField] GameObject Axe;
+    [SerializeField] GameObject _AxePrefab;
+    GameObject _Axeobj;
     public bool axePick;
     [SerializeField]private int axeMaxTime;
     private int axeTime;
@@ -162,8 +163,8 @@ public class PlayerMove : MonoBehaviour
         //Shoot();
         UpdateHPBarPosition();
         
-        Axe.transform.position = gameObject.transform.position;
-        axePosition = Axe.transform.position;
+        _AxePrefab.transform.position = gameObject.transform.position;
+        axePosition = _AxePrefab.transform.position;
     }
 
     private void FixedUpdate()
@@ -178,11 +179,13 @@ public class PlayerMove : MonoBehaviour
         if (axePick)
         {
             axeTime++;
-                Axe.transform.Rotate(0,0,-10);
+                _AxePrefab.transform.Rotate(0,0,-10);
             if (axeTime >= axeMaxTime)
             {
                 axeTime = 0;
+                //Axe.transform.Rotate(0, 0, 10);
                 AttackSword();
+
             }
         }
     }
@@ -446,30 +449,10 @@ public class PlayerMove : MonoBehaviour
     public void AttackSword()
     {
         axePick = true;
-        //float swordsizeX = Sword.gameObject.transform.localScale.x;
-        //float swordsizeY = Sword.gameObject.transform.localScale.y;
-        //float swordsizeX = 0.1f;
-        //float swordsizeY = 0.1f;
-        //swordPosition = gameObject.transform.position;
-        //swordsizeX++;
-        //swordsizeY++;
-        //Sword.gameObject.transform.localScale = new Vector3(swordsizeX, swordsizeY, 0);
-        //Sword.transform.localScale = new Vector3(2, 2, 0);
-        //if (swordsizeX >= 2 && swordsizeY >= 2)
-        //{
-        //    swordsizeX--;
-        //    swordsizeY--;
-        //}
-        //if (swordsizeX <= 0 && swordsizeY <= 0)
-        //{
-        //    swordsizeX = 0;
-        //    swordsizeY = 0;
-        //}
 
-        GameObject goAxe = Instantiate(Axe, axePosition, Quaternion.identity);
-        goAxe.GetComponent<Rigidbody2D>().linearVelocity = moveDirection * 5;
-        Axe = goAxe;
-        Axe.transform.Rotate(0, 0, 10);
+        _Axeobj = Instantiate(_AxePrefab, axePosition, Quaternion.identity);
+        Rigidbody2D rb2d = _Axeobj.GetComponent<Rigidbody2D>();
+
         LevelUp();
 
     }

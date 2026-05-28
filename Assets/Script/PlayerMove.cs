@@ -215,7 +215,7 @@ public class PlayerMove : MonoBehaviour
     [SerializeField] AudioClip _LevelUpSe;
 
     [SerializeField] private UnityEngine.UI.Slider _gauge; 
-    public float _maxGaugeValue = 5; 
+    public float _maxGaugeValue; 
     [SerializeField] private float _currentGaugeValue; 
     private float _velocity = 0; 
     private bool _isMaxGauge = false;
@@ -307,7 +307,7 @@ public class PlayerMove : MonoBehaviour
     }
 
 
-    void LateUpdate()// Update�֐��̎��ɌĂ΂��֐�
+    void LateUpdate()
     {
         Vector3 scale = _hpBarRoot.transform.localScale;
         scale.x = Mathf.Abs(scale.x);// ��ɐ��̒l�ɂ���
@@ -346,20 +346,16 @@ public class PlayerMove : MonoBehaviour
         if (Time.timeScale == 0f) return;
         if (_pose != null && _pose.isStop) return;
 
-
         transform.Translate(moveDirection * _moveSpeed * Time.deltaTime, Space.World);
 
-        // �J�����͈͂��擾�i���[���h���W�j
         Vector3 min = _mainCamera.ViewportToWorldPoint(new Vector3(0, 0, 0));
         Vector3 max = _mainCamera.ViewportToWorldPoint(new Vector3(1, 1, 0));
 
-        // �v���C���[�ʒu�𐧌�
         Vector3 pos = transform.position;
         pos.x = Mathf.Clamp(pos.x, min.x + _playerHalfWidth, max.x - _playerHalfWidth);
         pos.y = Mathf.Clamp(pos.y, min.y + _playerHalfHeight, max.y - _playerHalfHeight);
         transform.position = pos;
 
-        // �A�j���[�V����
         _PlayerAnimator.SetBool("Walk", moveDirection.x != 0.0f || moveDirection.y != 0.0f);
 
     }
@@ -456,15 +452,7 @@ public class PlayerMove : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D collision) // �����������̏���
     {
-        /*if (collision.gameObject.CompareTag("Enemy") || collision.gameObject.CompareTag("BOSS"))
-        {
-            if (!_bDamage)
-            {
-                TakeDamage(1);
-                _bDamage = true;
-                _damageTimeCount = 0;
-            }
-        }*/
+      
         if (_pose != null && _pose.isStop) return;
         if(_isLevelUp) return;
         if (isDeath) return;
@@ -483,14 +471,10 @@ public class PlayerMove : MonoBehaviour
 
         if (collision.gameObject.CompareTag("Item"))
         {
-            if (_currentGaugeValue < _maxGaugeValue)
+            if (_currentGaugeValue < _gauge.maxValue)
             {
                 _currentGaugeValue++;
                 Destroy(collision.gameObject);
-            }
-            if(_currentGaugeValue > _maxGaugeValue)
-            {
-                _maxGaugeValue = 0;
             }
         }
     }
@@ -519,7 +503,7 @@ public class PlayerMove : MonoBehaviour
     /// </summary>
     void CheckGaugeMax()
     {
-        if (_currentGaugeValue >= _maxGaugeValue && !_isMaxGauge)
+        if (_currentGaugeValue >= _gauge.maxValue && !_isMaxGauge)
         {
             _isMaxGauge = true;
             _isLevelUp = true;
@@ -539,7 +523,7 @@ public class PlayerMove : MonoBehaviour
         
         int num = Random.Range(0, skillButton.Length);
 
-        Instantiate(skillButton[num], new Vector3(0, 0, 0),Quaternion.identity.normalized );
+        Instantiate(skillButton[num], new Vector3(0, 0, 0),Quaternion.identity);
         
         _levelUpPanel.SetActive(true);
 
@@ -553,6 +537,7 @@ public class PlayerMove : MonoBehaviour
     /// </summary>
     void ResetGauge()
     {
+        _gauge.maxValue += 10;
         _currentGaugeValue = 0;
         _isMaxGauge = false;
     }

@@ -5,6 +5,7 @@ using UnityEngine;
 public class EnemyMove : MonoBehaviour
 {
     Transform playerTr; // ÉvÉåÉCÉÑÅ[ÇÃTransform
+    Transform KnockBackpos;
     [SerializeField] float _speed = 2.0f;
     [SerializeField] private int _hp;
     bool _dead = false;
@@ -22,6 +23,7 @@ public class EnemyMove : MonoBehaviour
         _spriteRenderer = GetComponent<SpriteRenderer>();
         _pose = FindAnyObjectByType<Pose>();
         _audioSource = GetComponent<AudioSource>();
+       
     }
 
     // Update is called once per frame
@@ -56,7 +58,7 @@ public class EnemyMove : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("Player")||collision.gameObject.CompareTag("Bullet")||collision.gameObject.CompareTag("Weapon"))
+        if (collision.gameObject.CompareTag("Bullet")||collision.gameObject.CompareTag("Weapon"))
         {
             _hp -= 1;
             if (_hp <= 0&&!_dead)
@@ -68,6 +70,7 @@ public class EnemyMove : MonoBehaviour
                 Invoke(nameof(Delete), 0.1f);
             }
         }
+        
     }
 
     void Delete()

@@ -11,87 +11,200 @@ using UnityEngine.UIElements;
 
 public class PlayerMove : MonoBehaviour
 {
-    // �v���C���[�̃A�j���[�V��������p
-    private Animator _animator;
-    [SerializeField] GameObject _AxePrefab;
-    GameObject _Axeobj;
-    public bool axePick;
-    [SerializeField]private int axeMaxTime;
-    private int axeTime;
-    private Vector2 axePosition;
-    // �v���C���[�̈ړ����x
+    ////////////////////////////////////////////////////////////////////////////////
+    ///                                 プレイヤー関連
+    ////////////////////////////////////////////////////////////////////////////////
+
+    /// <summary>
+    /// プレイヤーのアニメーション
+    /// </summary>
+    private Animator _PlayerAnimator;
+
+    /// <summary>
+    /// プレイヤーの移動速度
+    /// </summary>
     [SerializeField] private float _moveSpeed = 5f;
 
-    // �v���C���[�̈ړ�����
+    /// <summary>
+    /// プレイヤーの移動方向
+    /// </summary>
     private Vector2 moveDirection;
-    [SerializeField]private Vector2 currentPos;
 
-    // �J�����̈ʒu
-    private Vector2 _camPos;
-
-    // �v���C���[��HP
+    /// <summary>
+    /// プレイヤーの最大HP
+    /// </summary>
     [SerializeField] private float _maxHp;
 
-    // ���݂�HP
+    /// <summary>
+    /// プレイヤーの現在のHP
+    /// </summary>
     public float _currentHp;
 
-    // ���S��Ԃ𔻒肷��t���O
+    /// <summary>
+    /// プレイヤーが死亡したかどうか
+    /// </summary>
     private bool isDeath;
 
-    // �e�̑��x
-    [SerializeField] private float _bulletspeed = 3.0f;
-
-    // �e��Prefab
-    [SerializeField] private GameObject _bullet1;
-    [SerializeField] private GameObject _bullet2;
-    [SerializeField] private GameObject _bullet3;
-
-    // ���ۂɐ������ꂽ�e�̃C���X�^���X���i�[����ϐ�
-    private GameObject _bulletIns;
-
-    // �}�E�X�̍��W��ێ�
-    private Vector2 _mousePos;
-
-    // �v���C���[����}�E�X�ւ̊p�x�x�N�g��
-    private Vector2 _angle;
-
-    // �_���[�W��H��������̓_�Ŏ���
+    /// <summary>
+    /// プレイヤーがダメージを食らった時の無敵時間
+    /// </summary>
     [SerializeField] private float _damageTime;
 
-    // �_���[�W��H��������̓_�Ŏ���
+    /// <summary>
+    /// プレイヤーがダメージを食らった時の無敵時間
+    /// </summary>
     [SerializeField] private float _damageCycle;
 
-    // �v���C���[�̃X�v���C�g�𐧌䂷�邽�߂̃R���|�[�l���g
+    /// <summary>
+    /// プレイヤーがダメージを食らった時の無敵時間
+    /// </summary>
+    [SerializeField] private float _damageTimeCount;
+
+    /// <summary>
+    /// プレイヤーのスプライトレンダラー
+    /// </summary>
     private SpriteRenderer _spriteRenderer;
 
-    // ���݂̓_�Ōo�ߎ���
-    private float _damageTimeCount;
-
-    // ��_���[�W�����ǂ����������t���O
+    /// <summary>
+    /// プレイヤーがダメージを食らったかどうか
+    /// </summary>
     private bool _bDamage;
 
-    private Pose _pose;
-    private bool _isLevelUp   = false;
 
-    //private bool _shootCheck;
-    [SerializeField] private int _shootMaxCount;
-    [SerializeField] private int _shootCount;
+    ////////////////////////////////////////////////////////////////////////////////
+    ///                                 HP関連
+    ////////////////////////////////////////////////////////////////////////////////
 
 
+    /// <summary>
+    /// HpBarのスプライトレンダラー
+    /// </summary>
     public SpriteRenderer _hpBarFill;
+
+    /// <summary>
+    /// HPバー
+    /// </summary>
     public GameObject _hpBarRoot;
 
-    [SerializeField] GameObject _levelUpPanel;
-
-    //[SerializeField] GameObject _HealBotton;
-    [SerializeField] private Animator _levelUpAnimator;
-
+    /// <summary>
+    /// HPバーが隠れるまでの時間
+    /// </summary>
     [SerializeField] float _hideDelay = 2f;
 
-    private Coroutine _hideCoroutine;
+    /// <summary>
+    /// HPバーのスケール
+    /// </summary>
     private Vector3 _hpBarOriginalScale;
 
+    ////////////////////////////////////////////////////////////////////////////////
+    ///                                 マウスカーソル関連
+    ////////////////////////////////////////////////////////////////////////////////
+
+    /// <summary>
+    /// マウスカーソルのポジション
+    /// </summary>
+    private Vector2 _mousePos;
+
+    ////////////////////////////////////////////////////////////////////////////////
+    ///                                 弾関連
+    ////////////////////////////////////////////////////////////////////////////////
+
+    /// <summary>
+    /// 弾のオブジェクト
+    /// </summary>
+    [SerializeField] private GameObject _bullet;
+
+    /// <summary>
+    /// 生成されたときの弾の保存場所
+    /// </summary>
+    private GameObject _bulletIns;
+
+    /// <summary>
+    /// 弾の速度
+    /// </summary>
+    [SerializeField] private float _bulletspeed = 3.0f;
+
+    /// <summary>
+    /// 弾の発射時間
+    /// </summary>
+    [SerializeField] private int _shootMaxCount;
+
+    /// <summary>
+    /// 弾の発射カウント
+    /// </summary>
+    [SerializeField] private int _shootCount;
+
+    ////////////////////////////////////////////////////////////////////////////////
+    ///                                 斧関連
+    ////////////////////////////////////////////////////////////////////////////////
+
+    /// <summary>
+    /// 斧オブジェクト
+    /// </summary>
+    [SerializeField] GameObject _AxePrefab;
+
+    /// <summary>
+    /// 生成されたときの斧の保存場所
+    /// </summary>
+    GameObject _Axeobj;
+
+    /// <summary>
+    /// 斧をとったかどうか
+    /// </summary>
+    public bool _axePick;
+
+    /// <summary>
+    /// 斧が生成される時間
+    /// </summary>
+    [SerializeField]private int _GenerateAxeTime;
+
+    /// <summary>
+    /// 斧が生成されるまでの時間
+    /// </summary>
+    private int _GeneratedAxeTime;
+
+    /// <summary>
+    /// 斧のポジション
+    /// </summary>
+    private Vector2 axePosition;
+
+  
+    /// <summary>
+    /// ポーズ参照
+    /// </summary>
+    private Pose _pose;
+
+    /// <summary>
+    /// レベルアップしているかどうか
+    /// </summary>
+    private bool _isLevelUp   = false;
+
+   
+
+   
+    /// <summary>
+    /// レベルアップした時のパネル
+    /// </summary>
+    [SerializeField] GameObject _levelUpPanel;
+
+    /// <summary>
+    /// レベルアップパネルのアニメーション
+    /// </summary>
+    [SerializeField] private Animator _levelUpAnimator;
+
+  
+    /// <summary>
+    /// HPバーが隠れている時のコルーチン
+    /// </summary>
+    private Coroutine _hideCoroutine;
+
+   
+    /// <summary>
+    /// シーン上のカメラ
+    /// </summary>
     private Camera _mainCamera;
+
+
     private float _playerHalfWidth;
     private float _playerHalfHeight;
 
@@ -101,11 +214,13 @@ public class PlayerMove : MonoBehaviour
     [SerializeField] AudioClip _DeathSe;
     [SerializeField] AudioClip _LevelUpSe;
 
-    [SerializeField] private UnityEngine.UI.Slider _gauge; // �Q�[�W�o�[
-    public float _maxGaugeValue = 5; // �ő�l
-    [SerializeField] private float _currentGaugeValue; // ���ݒl
-    private float _velocity = 0; // �X���[�Y�ȕω��p
+    [SerializeField] private UnityEngine.UI.Slider _gauge; 
+    public float _maxGaugeValue = 5; 
+    [SerializeField] private float _currentGaugeValue; 
+    private float _velocity = 0; 
     private bool _isMaxGauge = false;
+
+    [SerializeField] GameObject[] skillButton;
 
     void Start()
     {
@@ -113,12 +228,12 @@ public class PlayerMove : MonoBehaviour
         // FPS��60�ɐݒ�
         Application.targetFrameRate = 60;
 
-        axePick = false;
+        _axePick = false;
         _spriteRenderer = GetComponent<SpriteRenderer>();
         _damageTimeCount = 0;
         _bDamage = false;
         _currentHp = _maxHp;
-        _animator = GetComponent<Animator>();
+        _PlayerAnimator = GetComponent<Animator>();
         _levelUpAnimator = GetComponent<Animator>();
         isDeath = false;
         _pose = FindAnyObjectByType<Pose>();// �V�[�����Pose��T���ĎQ��
@@ -177,13 +292,13 @@ public class PlayerMove : MonoBehaviour
             _shootCount = 0;
             //_shootCheck = true;
         }
-        if (axePick)
+        if (_axePick)
         {
-            axeTime++;
+            _GeneratedAxeTime++;
                 _AxePrefab.transform.Rotate(0,0,-10);
-            if (axeTime >= axeMaxTime)
+            if (_GeneratedAxeTime >= _GenerateAxeTime)
             {
-                axeTime = 0;
+                _GeneratedAxeTime = 0;
                 //Axe.transform.Rotate(0, 0, 10);
                 AttackSword();
 
@@ -199,7 +314,10 @@ public class PlayerMove : MonoBehaviour
         _hpBarRoot.transform.localScale = scale;
     }
 
-    void ProcessInputs() // ���͏���
+    /// <summary>
+    /// プレイヤーの移動取得
+    /// </summary>
+    void ProcessInputs() 
     {
 
         if (Time.timeScale == 0f) return;
@@ -219,7 +337,10 @@ public class PlayerMove : MonoBehaviour
         }
     }
 
-    void Move() // �ړ�
+    /// <summary>
+    /// プレイヤーの移動
+    /// </summary>
+    void Move()
     {
 
         if (Time.timeScale == 0f) return;
@@ -239,7 +360,7 @@ public class PlayerMove : MonoBehaviour
         transform.position = pos;
 
         // �A�j���[�V����
-        _animator.SetBool("Walk", moveDirection.x != 0.0f || moveDirection.y != 0.0f);
+        _PlayerAnimator.SetBool("Walk", moveDirection.x != 0.0f || moveDirection.y != 0.0f);
 
     }
 
@@ -255,7 +376,7 @@ public class PlayerMove : MonoBehaviour
         Vector2 direction = (_mousePos - (Vector2)transform.position).normalized;
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
 
-        _bulletIns = Instantiate(_bullet1, transform.position, Quaternion.Euler(0, 0, angle));
+        _bulletIns = Instantiate(_bullet, transform.position, Quaternion.Euler(0, 0, angle));
         _bulletIns.GetComponent<Rigidbody2D>().linearVelocity = direction * _bulletspeed;
         _audioSource.PlayOneShot(_shotSe);
         //}
@@ -283,7 +404,7 @@ public class PlayerMove : MonoBehaviour
         if (_currentHp <= 0)
         {
             //Destroy(gameObject);
-            _animator.SetBool("Death", true);
+            _PlayerAnimator.SetBool("Death", true);
             moveDirection = new Vector2(0, 0);
             isDeath = true;
             _audioSource.PlayOneShot(_DeathSe);
@@ -415,6 +536,11 @@ public class PlayerMove : MonoBehaviour
 
         _audioSource.PlayOneShot(_LevelUpSe);
 
+        
+        int num = Random.Range(0, skillButton.Length);
+
+        Instantiate(skillButton[num], new Vector3(0, 0, 0),Quaternion.identity.normalized );
+        
         _levelUpPanel.SetActive(true);
 
         _levelUpAnimator.SetBool("Move", true);
@@ -444,12 +570,11 @@ public class PlayerMove : MonoBehaviour
 
         LevelUp();
 
-
     }
 
     public void AttackSword()
     {
-        axePick = true;
+        _axePick = true;
 
         _Axeobj = Instantiate(_AxePrefab, axePosition, Quaternion.identity);
         Rigidbody2D rb2d = _Axeobj.GetComponent<Rigidbody2D>();
@@ -475,28 +600,5 @@ public class PlayerMove : MonoBehaviour
 
         Time.timeScale = 1.0f;
     }
-    //public void AttackPlus()
-    //{
-
-    //    //Vector2 direction = (_mousePos - (Vector2)transform.position).normalized;
-    //    //float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-
-    //    //_bulletIns = Instantiate(_bullet2, transform.position, Quaternion.Euler(100, 0, angle));
-    //    //_bulletIns.GetComponent<Rigidbody2D>().velocity = direction * _bulletspeed;
-
-    //    //Vector2 direction1 = (_mousePos - (Vector2)transform.position).normalized;
-    //    //float angle1 = Mathf.Atan2(direction1.y, direction1.x) * Mathf.Rad2Deg;
-
-    //    //_bulletIns = Instantiate(_bullet2, transform.position, Quaternion.Euler(-100, 0, angle));
-    //    //_bulletIns.GetComponent<Rigidbody2D>().velocity = direction1 * _bulletspeed;
-
-
-    //    // �p�l�������
-    //    _levelUpPanel.SetActive(false);
-
-    //    _isLevelUp = false;
-
-    //    // �Q�[���ĊJ
-    //    Time.timeScale = 1.0f;
-    //}
+  
 }

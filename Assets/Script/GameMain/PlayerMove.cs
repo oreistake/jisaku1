@@ -220,12 +220,11 @@ public class PlayerMove : MonoBehaviour
     private float _velocity = 0; 
     private bool _isMaxGauge = false;
 
-    [SerializeField] GameObject[] skillButton;
 
     void Start()
     {
         
-        // FPS��60�ɐݒ�
+        // 60FPS想定
         Application.targetFrameRate = 60;
 
         _axePick = false;
@@ -236,7 +235,7 @@ public class PlayerMove : MonoBehaviour
         _PlayerAnimator = GetComponent<Animator>();
         _levelUpAnimator = GetComponent<Animator>();
         isDeath = false;
-        _pose = FindAnyObjectByType<Pose>();// �V�[�����Pose��T���ĎQ��
+        _pose =GetComponent<Pose>();// �V�[�����Pose��T���ĎQ��
         
         
         //
@@ -299,7 +298,6 @@ public class PlayerMove : MonoBehaviour
             if (_GeneratedAxeTime >= _GenerateAxeTime)
             {
                 _GeneratedAxeTime = 0;
-                //Axe.transform.Rotate(0, 0, 10);
                 AttackSword();
 
             }
@@ -513,18 +511,13 @@ public class PlayerMove : MonoBehaviour
         }
     }
     /// <summary>
-    /// �Q�[�W��MAX�ɂȂ����Ƃ��̏���
+    /// ゲージが最大になった時
     /// </summary>
     void OnGaugeMax()
     {
 
         _audioSource.PlayOneShot(_LevelUpSe);
 
-        
-        int num = Random.Range(0, skillButton.Length);
-
-        Instantiate(skillButton[num], new Vector3(0, 0, 0),Quaternion.identity);
-        
         _levelUpPanel.SetActive(true);
 
         _levelUpAnimator.SetBool("Move", true);

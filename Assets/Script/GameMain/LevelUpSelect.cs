@@ -60,19 +60,4 @@ public class LevelUpSelect : MonoBehaviour
     }
 
 
-
-    void LevelUp()
-    {
-        //int num = Random.Range(0, _Skill.Length);
-
-        //Instantiate(_Skill[num], new Vector3(0, 0, 0), Quaternion.identity);
-
-
-
-        m_TextMeshPro.text = "斧";
-        //m_TextMeshPro.text = "ポーション";
-
-
-    }
-
 }

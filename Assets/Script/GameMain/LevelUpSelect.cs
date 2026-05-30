@@ -1,7 +1,8 @@
 using UnityEngine;
 using TMPro;
 using UnityEngine.UIElements;
-
+using UnityEditor.U2D;
+using UnityEngine.UI;
 public class LevelUpSelect : MonoBehaviour
 {
 
@@ -12,7 +13,8 @@ public class LevelUpSelect : MonoBehaviour
     int m_random;
     //[SerializeField] GameObject[] m_gameobject;
     [SerializeField] Sprite[] m_image;
-    [SerializeField] Sprite m_showimage;
+    [SerializeField] UnityEngine.UI.Image m_showSprite;
+    
     string[] Skill = 
     {
         "ポーション",
@@ -25,7 +27,6 @@ public class LevelUpSelect : MonoBehaviour
 
     void Start()
     {
-       
     }
 
     // Update is called once per frame
@@ -44,7 +45,7 @@ public class LevelUpSelect : MonoBehaviour
         if (m_random == 0)
         {
             if (!_isPick) return;
-            m_showimage = m_image[0];
+            m_showSprite.sprite = m_image[0];
             m_pPlayerMove._axePick = true;
             _isPick = false;
         }
@@ -52,7 +53,7 @@ public class LevelUpSelect : MonoBehaviour
         if (m_random == 1)
         {
             if (!_isPick) return;
-            m_showimage = m_image[1];
+            m_showSprite.sprite = m_image[1];
             m_pPlayerMove.HealHp();
             _isPick = false;
         }

@@ -10,6 +10,10 @@ public class LevelUpSelect : MonoBehaviour
     [SerializeField] TMP_Text m_TextMeshPro;
     [SerializeField] PlayerMove m_pPlayerMove;
     bool _isPick = false;
+
+    public bool _isAxePick;
+    public bool _isPotionPick;
+
     int m_random;
     //[SerializeField] GameObject[] m_gameobject;
     [SerializeField] Sprite[] m_image;
@@ -42,21 +46,44 @@ public class LevelUpSelect : MonoBehaviour
             m_TextMeshPro.text = Skill[m_random];
         }
 
+        if (m_random == 0) m_showSprite.sprite = m_image[0];
+        if (m_random == 1) m_showSprite.sprite = m_image[1];
+
+
+
+    }
+
+    public void Pick()
+    {
         if (m_random == 0)
         {
             if (!_isPick) return;
-            m_showSprite.sprite = m_image[0];
-            m_pPlayerMove._axePick = true;
-            _isPick = false;
+            Posion();
+            Debug.Log("ポーションが選ばれた");
         }
 
         if (m_random == 1)
         {
             if (!_isPick) return;
-            m_showSprite.sprite = m_image[1];
-            m_pPlayerMove.HealHp();
-            _isPick = false;
+            Axe();
+            Debug.Log("斧が選ばれた");
+
         }
+    }
+
+    void Axe()
+    {
+
+       
+        m_pPlayerMove._axePick = true;
+        _isPick = false;
+
+    }
+
+    void Posion()
+    {
+        m_pPlayerMove.HealHp();
+        _isPick = false;
     }
 
 

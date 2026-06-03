@@ -218,7 +218,7 @@ public class PlayerMove : MonoBehaviour
     public float _maxGaugeValue; 
     [SerializeField] private float _currentGaugeValue; 
     private float _velocity = 0; 
-    private bool _isMaxGauge = false;
+    public bool _isMaxGauge = false;
 
 
     void Start()

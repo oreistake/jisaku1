@@ -7,7 +7,8 @@ public class LevelUpSelect : MonoBehaviour
 {
 
     //[SerializeField] GameObject[] _Skill;
-    [SerializeField] TMP_Text m_TextMeshPro;
+    [SerializeField] TMP_Text m_WeaponName;         // 武器の名前
+    //[SerializeField] TMP_Text m_WeaponExplanation;  // 武器の説明
     [SerializeField] PlayerMove m_pPlayerMove;
     bool _isPick = false;
 
@@ -21,8 +22,8 @@ public class LevelUpSelect : MonoBehaviour
     
     string[] Skill = 
     {
-        "ポーション",
-        "斧"
+        "ポーション\r\n\r\nプレイヤーのHPが回復する\r\n\r\n",
+        "斧\r\n\r\n上方向にランダムに飛ばし下に落ちる\r\n\r\n"
     };
 
     //public Image hogeA;
@@ -36,21 +37,17 @@ public class LevelUpSelect : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //m_TextMeshPro.text = null;
-        //m_pPlayerMove = new PlayerMove();
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-
-            _isPick = true;
-            m_random = Random.Range(0, Skill.Length);
-            m_TextMeshPro.text = Skill[m_random];
-        }
-
+      
         if (m_random == 0) m_showSprite.sprite = m_image[0];
         if (m_random == 1) m_showSprite.sprite = m_image[1];
 
+    }
 
-
+    public void RandomSelect()
+    {
+        _isPick = true;
+        m_random = Random.Range(0, Skill.Length);
+        m_WeaponName.text = Skill[m_random];
     }
 
     public void Pick()
@@ -73,11 +70,8 @@ public class LevelUpSelect : MonoBehaviour
 
     void Axe()
     {
-
-       
-        m_pPlayerMove._axePick = true;
+        m_pPlayerMove.AttackSword();
         _isPick = false;
-
     }
 
     void Posion()

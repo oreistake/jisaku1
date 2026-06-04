@@ -354,7 +354,7 @@ namespace TMPro.Examples
                     }
                 }
 
-                //Debug.Log(wInfo.GetWord(m_TextMeshPro.textInfo.characterInfo));
+                //Debug.Log(wInfo.GetWord(m_WeaponName.textInfo.characterInfo));
             }
 
 
@@ -460,7 +460,7 @@ namespace TMPro.Examples
                     }
                 }
 
-                //Debug.Log(wInfo.GetWord(m_TextMeshPro.textInfo.characterInfo));
+                //Debug.Log(wInfo.GetWord(m_WeaponName.textInfo.characterInfo));
             }
         }
 

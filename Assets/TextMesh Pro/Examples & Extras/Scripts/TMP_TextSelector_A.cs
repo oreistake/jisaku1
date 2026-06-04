@@ -42,7 +42,7 @@ namespace TMPro.Examples
                 int charIndex = TMP_TextUtilities.FindIntersectingCharacter(m_TextMeshPro, Input.mousePosition, Camera.main, true);
                 if (charIndex != -1 && charIndex != m_lastCharIndex && (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift)))
                 {
-                    //Debug.Log("[" + m_TextMeshPro.textInfo.characterInfo[charIndex].character + "] has been selected.");
+                    //Debug.Log("[" + m_WeaponName.textInfo.characterInfo[charIndex].character + "] has been selected.");
 
                     m_lastCharIndex = charIndex;
 
@@ -59,7 +59,7 @@ namespace TMPro.Examples
                     vertexColors[vertexIndex + 2] = c;
                     vertexColors[vertexIndex + 3] = c;
 
-                    //m_TextMeshPro.mesh.colors32 = vertexColors;
+                    //m_WeaponName.mesh.colors32 = vertexColors;
                     m_TextMeshPro.textInfo.meshInfo[meshIndex].mesh.colors32 = vertexColors;
                 }
                 #endregion

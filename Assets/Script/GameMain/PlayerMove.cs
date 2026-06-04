@@ -220,6 +220,7 @@ public class PlayerMove : MonoBehaviour
     private float _velocity = 0; 
     public bool _isMaxGauge = false;
 
+    [SerializeField] LevelUpSelect _levelUpSelect;
 
     void Start()
     {
@@ -506,6 +507,7 @@ public class PlayerMove : MonoBehaviour
             _isMaxGauge = true;
             _isLevelUp = true;
 
+            _levelUpSelect.RandomSelect();
             OnGaugeMax();
             ResetGauge();
         }

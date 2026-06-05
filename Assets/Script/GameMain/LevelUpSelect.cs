@@ -8,10 +8,13 @@ public class LevelUpSelect : MonoBehaviour
 
     //[SerializeField] GameObject[] _Skill;
     [SerializeField] TMP_Text m_WeaponName;         // 武器の名前
-    //[SerializeField] TMP_Text m_WeaponExplanation;  // 武器の説明
+
+
+    //[SerializeField] private int m_AxeLevel;
+    
     [SerializeField] PlayerMove m_pPlayerMove;
     bool _isPick = false;
-
+    int axelevel;
     public bool _isAxePick;
     public bool _isPotionPick;
 
@@ -19,12 +22,8 @@ public class LevelUpSelect : MonoBehaviour
     //[SerializeField] GameObject[] m_gameobject;
     [SerializeField] Sprite[] m_image;
     [SerializeField] UnityEngine.UI.Image m_showSprite;
-    
-    string[] Skill = 
-    {
-        "ポーション\r\n\r\nプレイヤーのHPが回復する\r\n\r\n",
-        "斧\r\n\r\n上方向にランダムに飛ばし下に落ちる\r\n\r\n"
-    };
+
+  
 
     //public Image hogeA;
     //public Sprite hogaA;
@@ -37,7 +36,6 @@ public class LevelUpSelect : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-      
         if (m_random == 0) m_showSprite.sprite = m_image[0];
         if (m_random == 1) m_showSprite.sprite = m_image[1];
 
@@ -46,6 +44,12 @@ public class LevelUpSelect : MonoBehaviour
     public void RandomSelect()
     {
         _isPick = true;
+        if (m_pPlayerMove.axeLevel > 4) m_pPlayerMove.axeLevel = 4;
+        string[] Skill =
+        {
+        "ポーション\r\n\r\nプレイヤーのHPが回復する\r\n\r\n",
+        "斧Lv."+ (m_pPlayerMove.axeLevel +1)+ "\r\n\r\n上方向にランダムに飛ばし下に落ちる\r\n\r\n"
+        };
         m_random = Random.Range(0, Skill.Length);
         m_WeaponName.text = Skill[m_random];
     }
@@ -62,6 +66,7 @@ public class LevelUpSelect : MonoBehaviour
         if (m_random == 1)
         {
             if (!_isPick) return;
+            m_pPlayerMove.axeLevel++;
             Axe();
             Debug.Log("斧が選ばれた");
 

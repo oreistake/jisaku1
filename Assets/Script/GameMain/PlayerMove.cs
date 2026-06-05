@@ -156,7 +156,7 @@ public class PlayerMove : MonoBehaviour
     /// <summary>
     /// 斧が生成される時間
     /// </summary>
-    [SerializeField]private int _GenerateAxeTime;
+    [SerializeField]private int _GenerateAxeTime = 100;
 
     /// <summary>
     /// 斧が生成されるまでの時間
@@ -167,6 +167,14 @@ public class PlayerMove : MonoBehaviour
     /// 斧のポジション
     /// </summary>
     private Vector2 axePosition;
+
+
+    public int axeLevel = 0;
+    //private bool axeLevel1;
+    //private bool axeLevel2;
+    //private bool axeLevel3;
+    //private bool axeLevel4;
+    //private bool axeLevel5;
 
   
     /// <summary>
@@ -220,7 +228,7 @@ public class PlayerMove : MonoBehaviour
     private float _velocity = 0; 
     public bool _isMaxGauge = false;
 
-    [SerializeField] LevelUpSelect _levelUpSelect;
+    [SerializeField] LevelUpSelect[] _levelUpSelect;
 
     void Start()
     {
@@ -286,25 +294,19 @@ public class PlayerMove : MonoBehaviour
     private void FixedUpdate()
     {
         _shootCount++;
-        if(_shootCount >= _shootMaxCount)
+        if (_shootCount >= _shootMaxCount)
         {
             Shoot();
             _shootCount = 0;
             //_shootCheck = true;
         }
+
         if (_axePick)
         {
-            _GeneratedAxeTime++;
-                _AxePrefab.transform.Rotate(0,0,-10);
-            if (_GeneratedAxeTime >= _GenerateAxeTime)
-            {
-                _GeneratedAxeTime = 0;
-                AttackSword();
-
-            }
+            AxeLevel();
         }
-    }
 
+    }
 
     void LateUpdate()
     {
@@ -506,8 +508,10 @@ public class PlayerMove : MonoBehaviour
         {
             _isMaxGauge = true;
             _isLevelUp = true;
-
-            _levelUpSelect.RandomSelect();
+            for (int i = 0; i < _levelUpSelect.Length; i++) 
+            {
+                _levelUpSelect[i].RandomSelect();
+            }
             OnGaugeMax();
             ResetGauge();
         }
@@ -570,6 +574,77 @@ public class PlayerMove : MonoBehaviour
         Destroy(_Axeobj ,5.0f);
         LevelUp();
 
+    }
+
+    void AxeLevel()
+    {
+       
+        _GeneratedAxeTime++;
+        _AxePrefab.transform.Rotate(0, 0, -10);
+
+       
+        
+        if (axeLevel == 0) _GenerateAxeTime = 100;
+        if (axeLevel == 1) _GenerateAxeTime = 90;
+        if (axeLevel == 2) _GenerateAxeTime = 80;
+        if (axeLevel == 3) _GenerateAxeTime = 70;
+        if (axeLevel == 4) _GenerateAxeTime = 60;
+        //{
+        //    axeLevel1 = true;
+        //    axeLevel2 = false;
+        //    axeLevel3 = false;
+        //    axeLevel4 = false;
+        //    axeLevel5 = false;
+        //}
+
+        //if (axeLevel == 1)
+        //{
+        //    axeLevel1 = false;
+        //    axeLevel2 = true;
+        //    axeLevel3 = false;
+        //    axeLevel4 = false;
+        //    axeLevel5 = false;
+        //}
+
+        //if (axeLevel == 2)
+        //{
+        //    axeLevel1 = false;
+        //    axeLevel2 = false;
+        //    axeLevel3 = true;
+        //    axeLevel4 = false;
+        //    axeLevel5 = false;
+        //}
+
+        //if (axeLevel == 3)
+        //{
+        //    axeLevel1 = false;
+        //    axeLevel2 = false;
+        //    axeLevel3 = false;
+        //    axeLevel4 = true;
+        //    axeLevel5 = false;
+        //}
+
+        //if (axeLevel == 4)
+        //{
+        //    axeLevel1 = false;
+        //    axeLevel2 = false;
+        //    axeLevel3 = false;
+        //    axeLevel4 = false;
+        //    axeLevel5 = true;
+        //}
+
+        //if (axeLevel1) _GenerateAxeTime = 100;
+        //if (axeLevel2) _GenerateAxeTime = 90;
+        //if (axeLevel3) _GenerateAxeTime = 80;
+        //if (axeLevel4) _GenerateAxeTime = 70;
+        //if (axeLevel5) _GenerateAxeTime = 60;
+
+
+        if (_GeneratedAxeTime >= _GenerateAxeTime)
+        {
+            _GeneratedAxeTime = 0;
+            AttackSword();
+        }
     }
 
     void LevelUp()

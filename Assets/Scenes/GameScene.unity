@@ -22950,6 +22950,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 8282872505745809605, guid: 5e4eed9020d1dc941b8447d11ddc8dce, type: 3}
+      propertyPath: PosionPreFab
+      value: 
+      objectReference: {fileID: 4154500485884786778, guid: 540657131dd08c94f9739a3df6653a84, type: 3}
+    - target: {fileID: 8282872505745809605, guid: 5e4eed9020d1dc941b8447d11ddc8dce, type: 3}
       propertyPath: swordMaxTime
       value: 30
       objectReference: {fileID: 0}

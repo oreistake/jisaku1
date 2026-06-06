@@ -176,6 +176,22 @@ public class PlayerMove : MonoBehaviour
     //private bool axeLevel4;
     //private bool axeLevel5;
 
+    ///////////////////////////////////////////////////////////////////////////////////////////
+    /// ポーション関連
+    ///////////////////////////////////////////////////////////////////////////////////////////
+
+    // ポーションのプレハブ
+    [SerializeField] GameObject PosionPreFab = null;
+
+    // ポーションのポジション
+    [SerializeField] private Vector2 PosionPos;
+
+    // ポーションの移動スピード
+    [SerializeField] private float PosionSpeed;
+
+
+
+
   
     /// <summary>
     /// ポーズ参照
@@ -289,6 +305,9 @@ public class PlayerMove : MonoBehaviour
         
         _AxePrefab.transform.position = gameObject.transform.position;
         axePosition = _AxePrefab.transform.position;
+
+        PosionPreFab.transform.position = gameObject.transform.position;
+        PosionPos = PosionPreFab.transform.position;
     }
 
     private void FixedUpdate()
@@ -296,6 +315,7 @@ public class PlayerMove : MonoBehaviour
         _shootCount++;
         if (_shootCount >= _shootMaxCount)
         {
+            AttackPosion();
             Shoot();
             _shootCount = 0;
             //_shootCheck = true;
@@ -578,73 +598,27 @@ public class PlayerMove : MonoBehaviour
 
     void AxeLevel()
     {
-       
         _GeneratedAxeTime++;
         _AxePrefab.transform.Rotate(0, 0, -10);
-
-       
         
         if (axeLevel == 0) _GenerateAxeTime = 100;
         if (axeLevel == 1) _GenerateAxeTime = 90;
         if (axeLevel == 2) _GenerateAxeTime = 80;
         if (axeLevel == 3) _GenerateAxeTime = 70;
         if (axeLevel == 4) _GenerateAxeTime = 60;
-        //{
-        //    axeLevel1 = true;
-        //    axeLevel2 = false;
-        //    axeLevel3 = false;
-        //    axeLevel4 = false;
-        //    axeLevel5 = false;
-        //}
-
-        //if (axeLevel == 1)
-        //{
-        //    axeLevel1 = false;
-        //    axeLevel2 = true;
-        //    axeLevel3 = false;
-        //    axeLevel4 = false;
-        //    axeLevel5 = false;
-        //}
-
-        //if (axeLevel == 2)
-        //{
-        //    axeLevel1 = false;
-        //    axeLevel2 = false;
-        //    axeLevel3 = true;
-        //    axeLevel4 = false;
-        //    axeLevel5 = false;
-        //}
-
-        //if (axeLevel == 3)
-        //{
-        //    axeLevel1 = false;
-        //    axeLevel2 = false;
-        //    axeLevel3 = false;
-        //    axeLevel4 = true;
-        //    axeLevel5 = false;
-        //}
-
-        //if (axeLevel == 4)
-        //{
-        //    axeLevel1 = false;
-        //    axeLevel2 = false;
-        //    axeLevel3 = false;
-        //    axeLevel4 = false;
-        //    axeLevel5 = true;
-        //}
-
-        //if (axeLevel1) _GenerateAxeTime = 100;
-        //if (axeLevel2) _GenerateAxeTime = 90;
-        //if (axeLevel3) _GenerateAxeTime = 80;
-        //if (axeLevel4) _GenerateAxeTime = 70;
-        //if (axeLevel5) _GenerateAxeTime = 60;
-
 
         if (_GeneratedAxeTime >= _GenerateAxeTime)
         {
             _GeneratedAxeTime = 0;
             AttackSword();
         }
+    }
+
+
+    void AttackPosion()
+    {
+        //PosionPos.y += 50;
+        Instantiate(PosionPreFab,PosionPos,Quaternion.identity);
     }
 
     void LevelUp()

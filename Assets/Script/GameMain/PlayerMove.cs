@@ -617,8 +617,15 @@ public class PlayerMove : MonoBehaviour
 
     void AttackPosion()
     {
-        //PosionPos.y += 50;
-        Instantiate(PosionPreFab,PosionPos,Quaternion.identity);
+        PosionPos.y += 10;
+
+        GameObject posion = Instantiate(PosionPreFab,PosionPos,Quaternion.identity);
+        Rigidbody2D rd2d = posion.GetComponent<Rigidbody2D>();
+        rd2d.linearVelocity = new Vector2(Random.Range(-6, 6), Random.Range(-10, -5));
+
+        Destroy(posion,Random.Range(0.8f,1.2f));
+        //PosionPos = new Vector2()
+        Instantiate(PosionPreFab, PosionPos, Quaternion.identity);
     }
 
     void LevelUp()

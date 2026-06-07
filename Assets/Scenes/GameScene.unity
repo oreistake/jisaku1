@@ -22946,6 +22946,10 @@ PrefabInstance:
       value: 75
       objectReference: {fileID: 0}
     - target: {fileID: 8282872505745809605, guid: 5e4eed9020d1dc941b8447d11ddc8dce, type: 3}
+      propertyPath: PosionPos.y
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 8282872505745809605, guid: 5e4eed9020d1dc941b8447d11ddc8dce, type: 3}
       propertyPath: _HealBotton
       value: 
       objectReference: {fileID: 0}

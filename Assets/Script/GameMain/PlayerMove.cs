@@ -622,10 +622,23 @@ public class PlayerMove : MonoBehaviour
         GameObject posion = Instantiate(PosionPreFab,PosionPos,Quaternion.identity);
         Rigidbody2D rd2d = posion.GetComponent<Rigidbody2D>();
         rd2d.linearVelocity = new Vector2(Random.Range(-6, 6), Random.Range(-10, -5));
+        float deathTIme = Random.Range(0.8f, 1.2f);
+        //StartCoroutine(Circle(posion,deathTIme));
+        Destroy(posion,deathTIme);
 
-        Destroy(posion,Random.Range(0.8f,1.2f));
-        //PosionPos = new Vector2()
-        Instantiate(PosionPreFab, PosionPos, Quaternion.identity);
+
+        //IEnumerator Circle (GameObject posion, float death)
+        //{
+        //    yield return new WaitForSeconds(death);
+        //    Debug.Log("消えた");
+
+        //    Vector2 DeathPos = posion.transform.position;
+        //    GameObject CircleObj = Instantiate(PosionPreFab, DeathPos, Quaternion.identity);
+        //    Rigidbody2D Crd2d = CircleObj.GetComponent<Rigidbody2D>();
+        //    Crd2d.gravityScale = 0;
+        //}
+      
+
     }
 
     void LevelUp()

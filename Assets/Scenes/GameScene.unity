@@ -22954,6 +22954,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 8282872505745809605, guid: 5e4eed9020d1dc941b8447d11ddc8dce, type: 3}
+      propertyPath: PosionCircle
+      value: 
+      objectReference: {fileID: 201656100709916138, guid: 1fcd76c6c8dbc1544a2891b2cb0932fb, type: 3}
+    - target: {fileID: 8282872505745809605, guid: 5e4eed9020d1dc941b8447d11ddc8dce, type: 3}
       propertyPath: PosionPreFab
       value: 
       objectReference: {fileID: 4154500485884786778, guid: 540657131dd08c94f9739a3df6653a84, type: 3}

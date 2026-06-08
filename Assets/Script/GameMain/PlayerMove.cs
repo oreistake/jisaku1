@@ -183,6 +183,8 @@ public class PlayerMove : MonoBehaviour
     // ポーションのプレハブ
     [SerializeField] GameObject PosionPreFab = null;
 
+    [SerializeField] GameObject PosionCircle = null;
+
     // ポーションのポジション
     [SerializeField] private Vector2 PosionPos;
 
@@ -623,20 +625,32 @@ public class PlayerMove : MonoBehaviour
         Rigidbody2D rd2d = posion.GetComponent<Rigidbody2D>();
         rd2d.linearVelocity = new Vector2(Random.Range(-6, 6), Random.Range(-10, -5));
         float deathTIme = Random.Range(0.8f, 1.2f);
-        StartCoroutine(Circle(posion,deathTIme));
+        //StartCoroutine(Circle(posion,deathTIme));
         Destroy(posion,deathTIme);
 
-        IEnumerator Circle(GameObject posion, float death)
-        {
-            yield return new WaitForSeconds(death - 0.1f);
-            Debug.Log("消えた");
+        //IEnumerator Circle(GameObject posion, float death)
+        //{
+        //    yield return new WaitForSeconds(death - 0.1f);
+        //    Debug.Log("消えた");
 
-            Vector2 DeathPos = posion.transform.position;
-            GameObject CircleObj = Instantiate(PosionPreFab, DeathPos, Quaternion.identity);
-            Rigidbody2D Crd2d = CircleObj.GetComponent<Rigidbody2D>();
-            Crd2d.gravityScale = 0;
-        }
+        //    Vector2 DeathPos = posion.transform.position;
+        //    GameObject CircleObj = Instantiate(PosionCircle, DeathPos, Quaternion.identity);
+        //    float circleSizeX = CircleObj.transform.localScale.x;
+        //    float circleSizeY = CircleObj.transform.localScale.y;
+        //    circleSizeX+=0.1f;
+        //    circleSizeY+=0.1f;
+        //    Rigidbody2D Crd2d = CircleObj.GetComponent<Rigidbody2D>();
+        //    Crd2d.gravityScale = 0;
+
+        //    yield return new WaitForSeconds(1);
+        //    circleSizeX -= 0.1f;
+        //    circleSizeY -= 0.1f;
+
+
+        //}
     }
+
+   
 
     void LevelUp()
     {

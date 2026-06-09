@@ -183,8 +183,6 @@ public class PlayerMove : MonoBehaviour
     // ポーションのプレハブ
     [SerializeField] GameObject PosionPreFab = null;
 
-    [SerializeField] GameObject PosionCircle = null;
-
     // ポーションのポジション
     [SerializeField] private Vector2 PosionPos;
 

@@ -132,3 +132,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 27cca3a8969cd034692b8f3fa2aaaae8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PosionGetPos
+  Circle: {fileID: 201656100709916138, guid: 1fcd76c6c8dbc1544a2891b2cb0932fb, type: 3}

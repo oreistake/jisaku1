@@ -44,7 +44,7 @@ public class LevelUpSelect : MonoBehaviour
         {
         "ポーション\r\n\r\nプレイヤーのHPが回復する\r\n\r\n",
         "斧Lv."+ (m_pPlayerMove.axeLevel +1)+ "\r\n\r\n上方向にランダムに飛ばし下に落ちる\r\n\r\n",
-        "魔法瓶\r\n\r\n周囲にランダムに降り注ぎ敵を攻撃する\r\n\r\n"
+        "魔法瓶"+ (m_pPlayerMove.posionLevel +1)+ "\r\n\r\n周囲にランダムに降り注ぎ敵を攻撃する\r\n\r\n"
         };
         m_random = Random.Range(0, Skill.Length);
         m_WeaponName.text = Skill[m_random];
@@ -70,7 +70,7 @@ public class LevelUpSelect : MonoBehaviour
         if(m_random == 2)
         {
             if (!_isPick) return;
-            //m_pPlayerMove.axeLevel++;
+            m_pPlayerMove.posionLevel++;
             MagicPosion();
             Debug.Log("魔法瓶が選ばれた");
         }

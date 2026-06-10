@@ -170,11 +170,7 @@ public class PlayerMove : MonoBehaviour
 
 
     public int axeLevel = 0;
-    //private bool axeLevel1;
-    //private bool axeLevel2;
-    //private bool axeLevel3;
-    //private bool axeLevel4;
-    //private bool axeLevel5;
+  
 
     ///////////////////////////////////////////////////////////////////////////////////////////
     /// ポーション関連
@@ -191,7 +187,17 @@ public class PlayerMove : MonoBehaviour
 
     public bool _PosionPick;
 
+    /// <summary>
+    /// ポーションが生成される時間
+    /// </summary>
+    [SerializeField] private int _GeneratePosionTime = 100;
 
+    /// <summary>
+    /// ポーションが生成されるまでの時間
+    /// </summary>
+    private int _GeneratedPosionTime;
+
+    public int posionLevel = 0;
 
     /// <summary>
     /// ポーズ参照
@@ -328,7 +334,7 @@ public class PlayerMove : MonoBehaviour
         }
         if(_PosionPick)
         {
-            AttackPosion();
+            PosionLevel();
         }
     }
 
@@ -630,7 +636,23 @@ public class PlayerMove : MonoBehaviour
         Destroy(posion,deathTIme);
         LevelUp();
     }
+   
+    void PosionLevel()
+    {
+        _GeneratedPosionTime++;
 
+        if (posionLevel == 0) _GeneratePosionTime = 100;
+        if (posionLevel == 1) _GeneratePosionTime = 90;
+        if (posionLevel == 2) _GeneratePosionTime = 80;
+        if (posionLevel == 3) _GeneratePosionTime = 70;
+        if (posionLevel == 4) _GeneratePosionTime = 60;
+
+        if (_GeneratedPosionTime >= _GeneratePosionTime)
+        {
+            _GeneratedPosionTime = 0;
+            AttackPosion();
+        }
+    }
    
 
     void LevelUp()

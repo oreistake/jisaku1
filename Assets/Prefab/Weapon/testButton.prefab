@@ -150,8 +150,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::LevelUpSelect
   m_WeaponName: {fileID: 0}
   m_pPlayerMove: {fileID: 0}
-  _isAxePick: 0
-  _isPotionPick: 0
   m_image:
   - {fileID: 21300000, guid: 94113daefd864e64595a2b73b933e835, type: 3}
   - {fileID: 21300000, guid: 1808cd36f9782c149af16e5a27f8c036, type: 3}
@@ -305,11 +303,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::LevelUpSelect
   m_WeaponName: {fileID: 8972926213476099804}
   m_pPlayerMove: {fileID: 0}
-  _isAxePick: 0
-  _isPotionPick: 0
   m_image:
   - {fileID: 21300000, guid: 94113daefd864e64595a2b73b933e835, type: 3}
   - {fileID: 1999937526, guid: b96cafd382b4e69449f99c4357080573, type: 3}
+  - {fileID: 21300000, guid: 85fe961d8b8fb094584962eecb48d07b, type: 3}
   m_showSprite: {fileID: 6505998180325536243}
 --- !u!1 &8884984532120976780
 GameObject:

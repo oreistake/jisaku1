@@ -15,19 +15,13 @@ public class LevelUpSelect : MonoBehaviour
     [SerializeField] PlayerMove m_pPlayerMove;
     bool _isPick = false;
     int axelevel;
-    public bool _isAxePick;
-    public bool _isPotionPick;
+    //public bool _isAxePick;
+    //public bool _isPotionPick;
 
     int m_random;
     //[SerializeField] GameObject[] m_gameobject;
     [SerializeField] Sprite[] m_image;
     [SerializeField] UnityEngine.UI.Image m_showSprite;
-
-  
-
-    //public Image hogeA;
-    //public Sprite hogaA;
-    //public Sprite hogaB;
 
     void Start()
     {
@@ -38,6 +32,7 @@ public class LevelUpSelect : MonoBehaviour
     {
         if (m_random == 0) m_showSprite.sprite = m_image[0];
         if (m_random == 1) m_showSprite.sprite = m_image[1];
+        if (m_random == 2) m_showSprite.sprite = m_image[2];
 
     }
 
@@ -48,7 +43,8 @@ public class LevelUpSelect : MonoBehaviour
         string[] Skill =
         {
         "ポーション\r\n\r\nプレイヤーのHPが回復する\r\n\r\n",
-        "斧Lv."+ (m_pPlayerMove.axeLevel +1)+ "\r\n\r\n上方向にランダムに飛ばし下に落ちる\r\n\r\n"
+        "斧Lv."+ (m_pPlayerMove.axeLevel +1)+ "\r\n\r\n上方向にランダムに飛ばし下に落ちる\r\n\r\n",
+        "魔法瓶\r\n\r\n周囲にランダムに降り注ぎ敵を攻撃する\r\n\r\n"
         };
         m_random = Random.Range(0, Skill.Length);
         m_WeaponName.text = Skill[m_random];
@@ -69,8 +65,16 @@ public class LevelUpSelect : MonoBehaviour
             m_pPlayerMove.axeLevel++;
             Axe();
             Debug.Log("斧が選ばれた");
-
         }
+
+        if(m_random == 2)
+        {
+            if (!_isPick) return;
+            //m_pPlayerMove.axeLevel++;
+            MagicPosion();
+            Debug.Log("魔法瓶が選ばれた");
+        }
+
     }
 
     void Axe()
@@ -85,5 +89,10 @@ public class LevelUpSelect : MonoBehaviour
         _isPick = false;
     }
 
+    void MagicPosion()
+    {
+        m_pPlayerMove.AttackPosion();
+        _isPick = false;
+    }
 
 }

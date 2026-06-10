@@ -189,10 +189,10 @@ public class PlayerMove : MonoBehaviour
     // ポーションの移動スピード
     [SerializeField] private float PosionSpeed;
 
+    public bool _PosionPick;
 
 
 
-  
     /// <summary>
     /// ポーズ参照
     /// </summary>
@@ -253,6 +253,7 @@ public class PlayerMove : MonoBehaviour
         Application.targetFrameRate = 60;
 
         _axePick = false;
+        _PosionPick = false;
         _spriteRenderer = GetComponent<SpriteRenderer>();
         _damageTimeCount = 0;
         _bDamage = false;
@@ -315,7 +316,7 @@ public class PlayerMove : MonoBehaviour
         _shootCount++;
         if (_shootCount >= _shootMaxCount)
         {
-            AttackPosion();
+            //AttackPosion();
             Shoot();
             _shootCount = 0;
             //_shootCheck = true;
@@ -325,7 +326,10 @@ public class PlayerMove : MonoBehaviour
         {
             AxeLevel();
         }
-
+        if(_PosionPick)
+        {
+            AttackPosion();
+        }
     }
 
     void LateUpdate()
@@ -614,9 +618,9 @@ public class PlayerMove : MonoBehaviour
         }
     }
 
-
-    void AttackPosion()
+    public void AttackPosion()
     {
+        _PosionPick = true;
         PosionPos.y += 10;
 
         GameObject posion = Instantiate(PosionPreFab,PosionPos,Quaternion.identity);
@@ -624,6 +628,7 @@ public class PlayerMove : MonoBehaviour
         rd2d.linearVelocity = new Vector2(Random.Range(-6, 6), Random.Range(-10, -5));
         float deathTIme = Random.Range(0.8f, 1.2f);
         Destroy(posion,deathTIme);
+        LevelUp();
     }
 
    

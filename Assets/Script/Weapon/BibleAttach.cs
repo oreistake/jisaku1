@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class BibleAttack : MonoBehaviour
+public class BibleAttach : MonoBehaviour
 {
 
     [SerializeField] private GameObject _Bible;
@@ -35,6 +35,7 @@ public class BibleAttack : MonoBehaviour
         {
             _Bible.SetActive(false);
         }
+       
     }
 }
 

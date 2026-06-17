@@ -5,7 +5,7 @@ using UnityEngine;
 public class EnemyMove : MonoBehaviour
 {
     Transform playerTr; // ÉvÉåÉCÉÑÅ[ÇÃTransform
-    Transform KnockBackpos;
+    Vector3 KnockBackpos;
     [SerializeField] float _speed = 2.0f;
     [SerializeField] private int _hp;
     bool _dead = false;
@@ -37,6 +37,7 @@ public class EnemyMove : MonoBehaviour
 
     private void Move()
     {
+        KnockBackpos = transform.position;
         if (Vector2.Distance(transform.position, playerTr.position) < 0.1f) return;
 
         transform.position = Vector2.MoveTowards(transform.position,
@@ -69,6 +70,10 @@ public class EnemyMove : MonoBehaviour
                 _audioSource.PlayOneShot(_deathSe);
                 Invoke(nameof(Delete), 0.1f);
             }
+        }
+        if(collision.gameObject.CompareTag("Enemy"))
+        {
+            transform.position = KnockBackpos;
         }
         
     }

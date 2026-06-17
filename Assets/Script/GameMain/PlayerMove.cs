@@ -168,7 +168,9 @@ public class PlayerMove : MonoBehaviour
     /// </summary>
     private Vector2 axePosition;
 
-
+    /// <summary>
+    /// 斧のレベル
+    /// </summary>
     public int axeLevel = 0;
   
 
@@ -259,24 +261,28 @@ public class PlayerMove : MonoBehaviour
         Application.targetFrameRate = 60;
 
         _axePick = false;
-        _PosionPick = false;
-        _spriteRenderer = GetComponent<SpriteRenderer>();
-        _damageTimeCount = 0;
-        _bDamage = false;
-        _currentHp = _maxHp;
-        _PlayerAnimator = GetComponent<Animator>();
-        _levelUpAnimator = GetComponent<Animator>();
-        isDeath = false;
-        _pose =GetComponent<Pose>();// �V�[�����Pose��T���ĎQ��
-        
-        
-        //
-        //_shootCheck = false;
-        //_shootMaxCount = 0;
-        _shootCount = 0;
-        //
 
-        _hpBarRoot.SetActive(false); // �ŏ���SpriteRenderer���\���ɂ���
+        _PosionPick = false;
+
+        _spriteRenderer = GetComponent<SpriteRenderer>();
+
+        _damageTimeCount = 0;
+
+        _bDamage = false;
+
+        _currentHp = _maxHp;
+
+        _PlayerAnimator = GetComponent<Animator>();
+
+        _levelUpAnimator = GetComponent<Animator>();
+
+        isDeath = false;
+
+        _pose =GetComponent<Pose>();
+
+        _shootCount = 0;
+
+        _hpBarRoot.SetActive(false);
 
         _hpBarOriginalScale = _hpBarFill.transform.localScale;
 
@@ -307,7 +313,6 @@ public class PlayerMove : MonoBehaviour
         ProcessInputs();
         Move();
         Damage();
-        //Shoot();
         UpdateHPBarPosition();
         
         _AxePrefab.transform.position = gameObject.transform.position;
@@ -322,10 +327,8 @@ public class PlayerMove : MonoBehaviour
         _shootCount++;
         if (_shootCount >= _shootMaxCount)
         {
-            //AttackPosion();
             Shoot();
             _shootCount = 0;
-            //_shootCheck = true;
         }
 
         if (_axePick)
@@ -341,7 +344,7 @@ public class PlayerMove : MonoBehaviour
     void LateUpdate()
     {
         Vector3 scale = _hpBarRoot.transform.localScale;
-        scale.x = Mathf.Abs(scale.x);// ��ɐ��̒l�ɂ���
+        scale.x = Mathf.Abs(scale.x);
         _hpBarRoot.transform.localScale = scale;
     }
 
@@ -391,22 +394,18 @@ public class PlayerMove : MonoBehaviour
 
     }
 
-    void Shoot() // �ˌ�
+    void Shoot()
     {
         if (Time.timeScale == 0f) return;
         if (_pose != null && _pose.isStop) return;
 
         _mousePos = (Vector2)Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        //if (Input.GetMouseButtonDown(0))
-        //if (_shootCheck)
-        //{
         Vector2 direction = (_mousePos - (Vector2)transform.position).normalized;
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
 
         _bulletIns = Instantiate(_bullet, transform.position, Quaternion.Euler(0, 0, angle));
         _bulletIns.GetComponent<Rigidbody2D>().linearVelocity = direction * _bulletspeed;
         _audioSource.PlayOneShot(_shotSe);
-        //}
 
     }
     public void TakeDamage(int damage)
@@ -419,15 +418,12 @@ public class PlayerMove : MonoBehaviour
         _currentHp = Mathf.Max(_currentHp, 0);
         UpdateHPBar();
 
-        // HP�o�[��\��
         _hpBarRoot.SetActive(true);
 
-        // ��莞�Ԍ�ɔ�\���ɂ���
         if (_hideCoroutine != null)
             StopCoroutine(_hideCoroutine);
         _hideCoroutine = StartCoroutine(HideAfterDelay());
 
-        // HP��0�ɂȂ����玀�Ƀ��[�V�����Ɠ����Ȃ�����
         if (_currentHp <= 0)
         {
             //Destroy(gameObject);
@@ -453,7 +449,6 @@ public class PlayerMove : MonoBehaviour
                                                    _hpBarOriginalScale.y,
                                                    _hpBarOriginalScale.z);
 
-        // ���[���Œ肷��
         Vector3 pos = _hpBarFill.transform.localPosition;
         pos.x = -(_hpBarOriginalScale.x - _hpBarFill.transform.localScale.x) / 2f;
         _hpBarFill.transform.localPosition = pos;
@@ -463,13 +458,11 @@ public class PlayerMove : MonoBehaviour
     {
         if (_hpBarRoot.activeSelf)
         {
-            Vector3 hpPos = transform.position + new Vector3(0, 1.0f, 0); // �������1�P��
+            Vector3 hpPos = transform.position + new Vector3(0, 1.0f, 0); 
             _hpBarRoot.transform.position = hpPos;
 
-            // ��]�͌Œ�i���E���]�̉e�����󂯂Ȃ��j
             _hpBarRoot.transform.rotation = Quaternion.identity;
 
-            // �X�P�[�������]��ł�����
             Vector3 scale = _hpBarRoot.transform.localScale;
             scale.x = Mathf.Abs(scale.x);
             _hpBarRoot.transform.localScale = scale;
@@ -481,7 +474,7 @@ public class PlayerMove : MonoBehaviour
         yield return new WaitForSeconds(_hideDelay);
         _hpBarRoot.SetActive(false);
     }
-    private void OnTriggerEnter2D(Collider2D collision) // �����������̏���
+    private void OnTriggerEnter2D(Collider2D collision)
     {
       
         if (_pose != null && _pose.isStop) return;
@@ -529,9 +522,7 @@ public class PlayerMove : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// �Q�[�W��MAX�ɂȂ�����
-    /// </summary>
+ 
     void CheckGaugeMax()
     {
         if (_currentGaugeValue >= _gauge.maxValue && !_isMaxGauge)
@@ -562,7 +553,7 @@ public class PlayerMove : MonoBehaviour
     }
 
     /// <summary>
-    /// �Q�[�W�����Z�b�g
+    /// ゲージをリセットする
     /// </summary>
     void ResetGauge()
     {
@@ -573,8 +564,7 @@ public class PlayerMove : MonoBehaviour
 
     public void HealHp()
     {
-        // HP��
-        _currentHp += _maxHp;   // �S�񕜂������ꍇ
+        _currentHp += _maxHp;
         if (_currentHp > _maxHp)
         {
             _currentHp = _maxHp;
